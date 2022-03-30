@@ -62,13 +62,13 @@
       file:
         path: /home/jayhwa_lor/etcd/
         state: directory
-        
+
     - name: Copy etcd config
       ansible.builtin.template:
         src: ./yaml_files/etcd.j2
         dest: /home/jayhwa_lor/etcd/docker-compose.yml
         owner: jayhwa_lor
-        group: wheel
+        group: jayhwa_lor
         mode: '0644'
 
     - name: Run etcd node
