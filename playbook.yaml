@@ -36,7 +36,7 @@
 
   - name: Update apt and install docker
     apt:
-      name: docker
+      name: docker.io
       state: latest
       update_cache: true
 
