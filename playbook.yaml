@@ -58,6 +58,11 @@
       - start
 
     tasks:
+    - name: Creates directory
+      file:
+        path: /home/jayhwa_lor/etcd/
+        state: directory
+        
     - name: Copy etcd config
       ansible.builtin.template:
         src: ./yaml_files/etcd.j2
