@@ -1,101 +1,80 @@
-- name: All Servers
-  hosts: ansible-workers
-  remote_user: jayhwa_lor
-  become: true
-  tags:
-    - start
-  tasks:
-  - name: Install aptitude
-    apt:
-      name: aptitude
-      state: latest
-      update_cache: true
-
-  - name: Install required system packages
-    apt:
-      pkg:
-        - apt-transport-https
-        - ca-certificates
-        - curl
-        - software-properties-common
-        - python3-pip
-        - virtualenv
-        - python3-setuptools
-      state: latest
-      update_cache: true
-
-  - name: Add Docker GPG apt Key
-    apt_key:
-      url: https://download.docker.com/linux/ubuntu/gpg
-      state: present
-
-  - name: Add Docker Repository
-    apt_repository:
-      repo: deb https://download.docker.com/linux/ubuntu focal stable
-      state: present
-
-  - name: Update apt and install docker
-    apt:
-      name: docker.io
-      state: latest
-      update_cache: true
-
-  - name: Install Docker Module for Python
-    pip:
-      name: docker
-
-  - name: Install docker compose    
-    get_url:
-      url: https://github.com/docker/compose/releases/download/1.27.3/docker-compose-Linux-x86_64
-      dest: /usr/local/bin/docker-compose
-      mode: 755
-
-  # - name: Install docker
-  #   ansible.builtin.yum:
-  #     name: docker
-  #     state: present
-  # - name: Run docker
-  #   ansible.builtin.service:
-  #     name: docker
-  #     state: started
-
-  # - name: Install or upgrade docker-compose
-  #   get_url: 
-  #     url : "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64"
-  #     dest: /usr/local/bin/docker-compose
-  #     mode: 'a+x'
-  #     force: yes
-  # - name: Create symbolic link for docker-compose
-  #   file:
-  #     src: "/usr/local/bin/docker-compose"
-  #     dest: "/usr/bin/docker-compose"
-  #     state: link
-
-# - name: etcd
-#   hosts: etcd_ips_public
-#   remote_user: ec2-user
+# - name: All Servers
+#   hosts: ansible-workers
+#   remote_user: jayhwa_lor
 #   become: true
 #   tags:
 #     - start
-
 #   tasks:
-#   - name: Copy etcd config
-#     ansible.builtin.template:
-#       src: ./yaml_files/etcd.j2
-#       dest: /home/ec2-user/docker-compose.yml
-#       owner: ec2-user
-#       group: wheel
-#       mode: '0644'
+#   - name: Install aptitude
+#     apt:
+#       name: aptitude
+#       state: latest
+#       update_cache: true
 
-#   - name: Run etcd node
-#     shell: docker-compose up -d
-#     args:
-#       chdir: /home/ec2-user/
+#   - name: Install required system packages
+#     apt:
+#       pkg:
+#         - apt-transport-https
+#         - ca-certificates
+#         - curl
+#         - software-properties-common
+#         - python3-pip
+#         - virtualenv
+#         - python3-setuptools
+#       state: latest
+#       update_cache: true
+
+#   - name: Add Docker GPG apt Key
+#     apt_key:
+#       url: https://download.docker.com/linux/ubuntu/gpg
+#       state: present
+
+#   - name: Add Docker Repository
+#     apt_repository:
+#       repo: deb https://download.docker.com/linux/ubuntu focal stable
+#       state: present
+
+#   - name: Update apt and install docker
+#     apt:
+#       name: docker.io
+#       state: latest
+#       update_cache: true
+
+#   - name: Install Docker Module for Python
+#     pip:
+#       name: docker
+
+#   - name: Install docker compose    
+#     get_url:
+#       url: https://github.com/docker/compose/releases/download/1.27.3/docker-compose-Linux-x86_64
+#       dest: /usr/local/bin/docker-compose
+#       mode: 755
+
+  - name: etcd
+    hosts: 34.92.97.227
+    remote_user: jayhwa_lor
+    become: true
+    tags:
+      - start
+
+    tasks:
+    - name: Copy etcd config
+      ansible.builtin.template:
+        src: ./yaml_files/etcd.j2
+        dest: /home/jayhwa_lor/etcd/docker-compose.yml
+        owner: jayhwa_lor
+        group: wheel
+        mode: '0644'
+
+    - name: Run etcd node
+      shell: docker-compose up -d
+      args:
+        chdir: /home/jayhwa_lor/etcd/
 
 
 # - name: pulsar
-#   hosts: pulsar_ips_public
-#   remote_user: ec2-user
+#   hosts: 35.220.249.177
+#   remote_user: jayhwa_lor
 #   become: true
 #   vars:
 #     pulsar_ip: "{{groups['pulsar_ips_private'][0]}}"
@@ -105,19 +84,19 @@
 #   - name: Copy pulsar config
 #     ansible.builtin.template:
 #       src: ./yaml_files/pulsar.j2
-#       dest: /home/ec2-user/docker-compose.yml
-#       owner: ec2-user
+#       dest: /home/jayhwa_lor/pulsar/docker-compose.yml
+#       owner: jayhwa_lor
 #       group: wheel
 #       mode: '0644'
 
 #   - name: Run pulsar node
 #     shell: docker-compose up -d
 #     args:
-#       chdir: /home/ec2-user/
+#       chdir: /home/jayhwa_lor/pulsar/
 
 # - name: minio
-#   hosts: minio_ips_public
-#   remote_user: ec2-user
+#   hosts: 34.92.97.227
+#   remote_user: jayhwa_lor
 #   become: true
 #   tags:
 #     - start
@@ -126,20 +105,20 @@
 #   - name: Copy minio config
 #     ansible.builtin.template:
 #       src: ./yaml_files/minio.j2
-#       dest: /home/ec2-user/docker-compose.yml
-#       owner: ec2-user
+#       dest: /home/jayhwa_lor/minio/docker-compose.yml
+#       owner: jayhwa_lor
 #       group: wheel
 #       mode: '0644'
 
 #   - name: Run minio node
 #     shell: docker-compose up -d
 #     args:
-#       chdir: /home/ec2-user/
+#       chdir: /home/jayhwa_lor/minio/
 
 
 # - name: root_coordinator
-#   hosts: root_coordinator_ips_public
-#   remote_user: ec2-user
+#   hosts: 35.220.249.177
+#   remote_user: jayhwa_lor
 #   become: true
 #   vars:
 #     etcd_ip: "{{groups['etcd_ips_private'][0]}}"
@@ -154,19 +133,19 @@
 #   - name: Copy root_coordinator config
 #     ansible.builtin.template:
 #       src: ./yaml_files/rootcoord.j2
-#       dest: /home/ec2-user/docker-compose.yml
-#       owner: ec2-user
+#       dest: /home/jayhwa_lor/root_coordinator/docker-compose.yml
+#       owner: jayhwa_lor
 #       group: wheel
 #       mode: '0644'
 
 #   - name: Run root_coordinator node
 #     shell: docker-compose up -d
 #     args:
-#       chdir: /home/ec2-user/
+#       chdir: /home/jayhwa_lor/root_coordinator/
 
 # - name: data_coordinator
-#   hosts: data_coordinator_ips_public
-#   remote_user: ec2-user
+#   hosts: 35.220.249.177
+#   remote_user: jayhwa_lor
 #   become: true
 #   vars:
 #     etcd_ip: "{{groups['etcd_ips_private'][0]}}"
@@ -181,19 +160,19 @@
 #   - name: Copy data_coordinator config
 #     ansible.builtin.template:
 #       src: ./yaml_files/datacoord.j2
-#       dest: /home/ec2-user/docker-compose.yml
-#       owner: ec2-user
+#       dest: /home/jayhwa_lor/data_coordinator/docker-compose.yml
+#       owner: jayhwa_lor
 #       group: wheel
 #       mode: '0644'
 
 #   - name: Run data_coordinator node
 #     shell: docker-compose up -d
 #     args:
-#       chdir: /home/ec2-user/
+#       chdir: /home/jayhwa_lor/data_coordinator/
 
 # - name: query_coordinator
-#   hosts: query_coordinator_ips_public
-#   remote_user: ec2-user
+#   hosts: 35.220.249.177
+#   remote_user: jayhwa_lor
 #   become: true
 #   vars:
 #     etcd_ip: "{{groups['etcd_ips_private'][0]}}"
@@ -208,19 +187,19 @@
 #   - name: Copy query_coordinator config
 #     ansible.builtin.template:
 #       src: ./yaml_files/querycoord.j2
-#       dest: /home/ec2-user/docker-compose.yml
-#       owner: ec2-user
+#       dest: /home/jayhwa_lor/query_coordinator/docker-compose.yml
+#       owner: jayhwa_lor
 #       group: wheel
 #       mode: '0644'
 
 #   - name: Run query_coordinator node
 #     shell: docker-compose up -d
 #     args:
-#       chdir: /home/ec2-user/
+#       chdir: /home/jayhwa_lor/query_coordinator/
 
 # - name: index_coordinator
-#   hosts: index_coordinator_ips_public
-#   remote_user: ec2-user
+#   hosts: 35.220.249.177
+#   remote_user: jayhwa_lor
 #   become: true
 #   vars:
 #     etcd_ip: "{{groups['etcd_ips_private'][0]}}"
@@ -235,21 +214,21 @@
 #   - name: Copy index_coordinator config
 #     ansible.builtin.template:
 #       src: ./yaml_files/indexcoord.j2
-#       dest: /home/ec2-user/docker-compose.yml
-#       owner: ec2-user
+#       dest: /home/jayhwa_lor/index_coordinator/docker-compose.yml
+#       owner: jayhwa_lor
 #       group: wheel
 #       mode: '0644'
 
 #   - name: Run index_coordinator node
 #     shell: docker-compose up -d
 #     args:
-#       chdir: /home/ec2-user/
+#       chdir: /home/jayhwa_lor/index_coordinator/
 
 
 
 # - name: query
-#   hosts: query_ips_public
-#   remote_user: ec2-user
+#   hosts: 35.220.249.177
+#   remote_user: jayhwa_lor
 #   become: true
 #   vars:
 #     etcd_ip: "{{groups['etcd_ips_private'][0]}}"
@@ -262,19 +241,19 @@
 #   - name: Copy query config
 #     ansible.builtin.template:
 #       src: ./yaml_files/querynode.j2
-#       dest: /home/ec2-user/docker-compose.yml
-#       owner: ec2-user
+#       dest: /home/jayhwa_lor/query/docker-compose.yml
+#       owner: jayhwa_lor
 #       group: wheel
 #       mode: '0644'
 
 #   - name: Run query node
 #     shell: docker-compose up -d
 #     args:
-#       chdir: /home/ec2-user/
+#       chdir: /home/jayhwa_lor/query/
 
 # - name: index
-#   hosts: index_ips_public
-#   remote_user: ec2-user
+#   hosts: 35.220.249.177
+#   remote_user: jayhwa_lor
 #   become: true
 #   vars:
 #     etcd_ip: "{{groups['etcd_ips_private'][0]}}"
@@ -288,20 +267,20 @@
 #   - name: Copy index config
 #     ansible.builtin.template:
 #       src: ./yaml_files/indexnode.j2
-#       dest: /home/ec2-user/docker-compose.yml
-#       owner: ec2-user
+#       dest: /home/jayhwa_lor/index/docker-compose.yml
+#       owner: jayhwa_lor
 #       group: wheel
 #       mode: '0644'
 
 #   - name: Run index node
 #     shell: docker-compose up -d
 #     args:
-#       chdir: /home/ec2-user/
+#       chdir: /home/jayhwa_lor/index/
 
 
 # - name: data
-#   hosts: data_ips_public
-#   remote_user: ec2-user
+#   hosts: 34.92.97.227
+#   remote_user: jayhwa_lor
 #   become: true
 #   vars:
 #     etcd_ip: "{{groups['etcd_ips_private'][0]}}"
@@ -315,19 +294,19 @@
 #   - name: Copy data config
 #     ansible.builtin.template:
 #       src: ./yaml_files/datanode.j2
-#       dest: /home/ec2-user/docker-compose.yml
-#       owner: ec2-user
+#       dest: /home/jayhwa_lor/data/docker-compose.yml
+#       owner: jayhwa_lor
 #       group: wheel
 #       mode: '0644'
 
 #   - name: Run data node
 #     shell: docker-compose up -d
 #     args:
-#       chdir: /home/ec2-user/
+#       chdir: /home/jayhwa_lor/data/
 
 # - name: proxy
-#   hosts: proxy_ips_public
-#   remote_user: ec2-user
+#   hosts: 34.92.97.227
+#   remote_user: jayhwa_lor
 #   become: true
 #   vars:
 #     etcd_ip: "{{groups['etcd_ips_private'][0]}}"
@@ -340,164 +319,19 @@
 #   - name: Copy proxy config
 #     ansible.builtin.template:
 #       src: ./yaml_files/proxynode.j2
-#       dest: /home/ec2-user/docker-compose.yml
-#       owner: ec2-user
+#       dest: /home/jayhwa_lor/proxy/docker-compose.yml
+#       owner: jayhwa_lor
 #       group: wheel
 #       mode: '0644'
 
 #   - name: Run proxy node
 #     shell: docker-compose up -d
 #     args:
-#       chdir: /home/ec2-user/
-
-
-# - name: Scale Index
-#   hosts: index_ips_public
-#   remote_user: ec2-user
-#   become: true
-#   vars:
-#     etcd_ip: "{{groups['etcd_ips_private'][0]}}"
-#     minio_ip: "{{groups['minio_ips_private'][0]}}"
-#     pulsar_ip: "{{groups['pulsar_ips_private'][0]}}"
-#     indexcoord_ip: "{{groups['index_coordinator_ips_private'][0]}}"
-#   tags:
-#     - scale_index
-
-#   tasks:
-#   - name: Install docker
-#     ansible.builtin.yum:
-#       name: docker
-#       state: present
-#   - name: Run docker
-#     ansible.builtin.service:
-#       name: docker
-#       state: started
-
-#   - name: Install or upgrade docker-compose
-#     get_url: 
-#       url : "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64"
-#       dest: /usr/local/bin/docker-compose
-#       mode: 'a+x'
-#       force: yes
-#   - name: Create symbolic link for docker-compose
-#     file:
-#       src: "/usr/local/bin/docker-compose"
-#       dest: "/usr/bin/docker-compose"
-#       state: link
-
-#   - name: Copy index config
-#     ansible.builtin.template:
-#       src: ./yaml_files/indexnode.j2
-#       dest: /home/ec2-user/docker-compose.yml
-#       owner: ec2-user
-#       group: wheel
-#       mode: '0644'
-
-#   - name: Run index node
-#     shell: docker-compose up -d
-#     args:
-#       chdir: /home/ec2-user/
-
-
-# - name: Scale data
-#   hosts: data_ips_public
-#   remote_user: ec2-user
-#   become: true
-#   vars:
-#     etcd_ip: "{{groups['etcd_ips_private'][0]}}"
-#     minio_ip: "{{groups['minio_ips_private'][0]}}"
-#     pulsar_ip: "{{groups['pulsar_ips_private'][0]}}"
-#     datacoord_ip: "{{groups['data_coordinator_ips_private'][0]}}"
-#   tags:
-#     - scale_data
-
-#   tasks:
-#   - name: Install docker
-#     ansible.builtin.yum:
-#       name: docker
-#       state: present
-#   - name: Run docker
-#     ansible.builtin.service:
-#       name: docker
-#       state: started
-
-#   - name: Install or upgrade docker-compose
-#     get_url: 
-#       url : "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64"
-#       dest: /usr/local/bin/docker-compose
-#       mode: 'a+x'
-#       force: yes
-#   - name: Create symbolic link for docker-compose
-#     file:
-#       src: "/usr/local/bin/docker-compose"
-#       dest: "/usr/bin/docker-compose"
-#       state: link
-
-#   - name: Copy data config
-#     ansible.builtin.template:
-#       src: ./yaml_files/datanode.j2
-#       dest: /home/ec2-user/docker-compose.yml
-#       owner: ec2-user
-#       group: wheel
-#       mode: '0644'
-
-#   - name: Run data node
-#     shell: docker-compose up -d
-#     args:
-#       chdir: /home/ec2-user/
-
-
-# - name: Scale proxy
-#   hosts: proxy_ips_public
-#   remote_user: ec2-user
-#   become: true
-#   vars:
-#     etcd_ip: "{{groups['etcd_ips_private'][0]}}"
-#     minio_ip: "{{groups['minio_ips_private'][0]}}"
-#     pulsar_ip: "{{groups['pulsar_ips_private'][0]}}"
-#   tags:
-#     - scale_proxy
-
-#   tasks:
-#   - name: Install docker
-#     ansible.builtin.yum:
-#       name: docker
-#       state: present
-
-#   - name: Run docker
-#     ansible.builtin.service:
-#       name: docker
-#       state: started
-
-#   - name: Install or upgrade docker-compose
-#     get_url: 
-#       url : "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64"
-#       dest: /usr/local/bin/docker-compose
-#       mode: 'a+x'
-#       force: yes
-
-#   - name: Create symbolic link for docker-compose
-#     file:
-#       src: "/usr/local/bin/docker-compose"
-#       dest: "/usr/bin/docker-compose"
-#       state: link
-
-#   - name: Copy proxy config
-#     ansible.builtin.template:
-#       src: ./yaml_files/proxynode.j2
-#       dest: /home/ec2-user/docker-compose.yml
-#       owner: ec2-user
-#       group: wheel
-#       mode: '0644'
-
-#   - name: Run proxy node
-#     shell: docker-compose up -d
-#     args:
-#       chdir: /home/ec2-user/
+#       chdir: /home/jayhwa_lor/proxy/
 
 # - name: All Servers Restart
-#   hosts: data_ips_public:index_ips_public:query_ips_public:proxy_ips_public #:root_coordinator_ips_public:data_coordinator_ips_public:query_coordinator_ips_public:index_coordinator_ips_public
-#   remote_user: ec2-user
+#   hosts: ansible-workers
+#   remote_user: jayhwa_lor
 #   become: true
 
 #   tags:
@@ -507,9 +341,9 @@
 #     - name: docker down
 #       shell: docker-compose down
 #       args:
-#         chdir: /home/ec2-user/
+#         chdir: /home/jayhwa_lor/
 
 #     - name: docker up
 #       shell: docker-compose up -d
 #       args:
-#         chdir: /home/ec2-user/
+#         chdir: /home/jayhwa_lor/
