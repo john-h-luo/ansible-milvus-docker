@@ -53,7 +53,7 @@
   - name: etcd
     hosts: 34.92.97.227
     remote_user: jayhwa_lor
-    become: false
+    become: true
     tags:
       - start
 
