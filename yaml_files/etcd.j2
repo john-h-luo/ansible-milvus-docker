@@ -11,11 +11,6 @@ services:
       interval: 30s
       timeout: 20s
       retries: 3
-    networks:
-      - host
     ports:
       - 2379:2379
-
-networks:
-  host:
-    driver: host
+    network_mode: host
