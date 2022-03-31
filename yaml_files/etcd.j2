@@ -11,9 +11,10 @@ services:
       interval: 30s
       timeout: 20s
       retries: 3
-    networks:
-      default:
-        external:
-          name: host
     ports:
       - 2379:2379
+      
+networks:
+  default:
+    external:
+      name: host
