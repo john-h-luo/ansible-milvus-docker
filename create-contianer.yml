@@ -23,7 +23,7 @@
                 networks:
                 - name: host
                   ipv4_address: 10.170.0.10
-                  
+
           services:
                 Milvus-etcd:
                   <<: *common_settings
@@ -34,7 +34,7 @@
                       - '--advertise-client-urls=http://etcd-1:2379'
                       - '--heartbeat-interval=250'
                       - '--election-timeout=1250'
-                      - '--initial-cluster=Milvus-etcd=http://127.0.0.1:2380
+                      - '--initial-cluster=http://127.0.0.1:2380
                       - '--initial-cluster-state=new'
                       # - *flag_initial_cluster_token
 
