@@ -1,7 +1,7 @@
 ---
-- hosts: all
+- hosts: d2
 
-- become: yes
+  become: yes
   become_user: "{{ lookup('env','jayhwa_lor') }}"
   tasks:
 
