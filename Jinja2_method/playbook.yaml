@@ -51,7 +51,7 @@
 #       mode: 755
 
 - name: etcd
-  hosts: 34.92.97.227
+  hosts: 10.170.0.5
   remote_user: jayhwa_lor
   become: true
   tags:
@@ -77,59 +77,59 @@
       chdir: /home/jayhwa_lor/etcd/
 
 
-- name: pulsar
-  hosts: 34.92.97.227
-  remote_user: jayhwa_lor
-  become: true
-  vars:
-    pulsar_ip: "{{170.0.0.4}}"
-  tags:
-    - start
+# - name: pulsar
+#   hosts: 34.92.97.227
+#   remote_user: jayhwa_lor
+#   become: true
+#   vars:
+#     pulsar_ip: "{{170.0.0.4}}"
+#   tags:
+#     - start
 
-  tasks:
-  - name: Creates directory
-    file:
-      path: /home/jayhwa_lor/pulsar/
-      state: directory
+#   tasks:
+#   - name: Creates directory
+#     file:
+#       path: /home/jayhwa_lor/pulsar/
+#       state: directory
 
-  - name: Copy pulsar config
-    ansible.builtin.template:
-      src: ./yaml_files/pulsar.j2
-      dest: /home/jayhwa_lor/pulsar/docker-compose.yml
-      owner: jayhwa_lor
-      group: jayhwa_lor
-      mode: '0644'
+#   - name: Copy pulsar config
+#     ansible.builtin.template:
+#       src: ./yaml_files/pulsar.j2
+#       dest: /home/jayhwa_lor/pulsar/docker-compose.yml
+#       owner: jayhwa_lor
+#       group: jayhwa_lor
+#       mode: '0644'
 
-  - name: Run pulsar node
-    shell: docker-compose up -d
-    args:
-      chdir: /home/jayhwa_lor/pulsar/
+#   - name: Run pulsar node
+#     shell: docker-compose up -d
+#     args:
+#       chdir: /home/jayhwa_lor/pulsar/
 
-- name: minio
-  hosts: 34.92.97.227
-  remote_user: jayhwa_lor
-  become: true
-  tags:
-    - start
+# - name: minio
+#   hosts: 34.92.97.227
+#   remote_user: jayhwa_lor
+#   become: true
+#   tags:
+#     - start
 
 
-  tasks:
-  - name: Creates directory
-    file:
-      path: /home/jayhwa_lor/minio/
-      state: directory
-  - name: Copy minio config
-    ansible.builtin.template:
-      src: ./yaml_files/minio.j2
-      dest: /home/jayhwa_lor/minio/docker-compose.yml
-      owner: jayhwa_lor
-      group: jayhwa_lor
-      mode: '0644'
+#   tasks:
+#   - name: Creates directory
+#     file:
+#       path: /home/jayhwa_lor/minio/
+#       state: directory
+#   - name: Copy minio config
+#     ansible.builtin.template:
+#       src: ./yaml_files/minio.j2
+#       dest: /home/jayhwa_lor/minio/docker-compose.yml
+#       owner: jayhwa_lor
+#       group: jayhwa_lor
+#       mode: '0644'
 
-  - name: Run minio node
-    shell: docker-compose up -d
-    args:
-      chdir: /home/jayhwa_lor/minio/
+#   - name: Run minio node
+#     shell: docker-compose up -d
+#     args:
+#       chdir: /home/jayhwa_lor/minio/
 
 
 # - name: root_coordinator
