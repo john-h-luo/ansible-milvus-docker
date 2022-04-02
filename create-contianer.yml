@@ -18,7 +18,9 @@
       #   interval: 30s
       #   timeout: 20s
       #   retries: 3
-      network_mode: host
+      networks:
+        name: etcd
+        ipv4_address: 10.170.0.5
       ports:
         - "2379:2379"
 
