@@ -19,7 +19,7 @@
         timeout: 20s
         retries: 3
       networks:
-        - name: etcd
+        - name: host
           ipv4_address: 10.170.0.5
       ports:
         - "2379:2379"
