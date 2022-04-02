@@ -12,21 +12,45 @@
     community.docker.docker_compose:
       project_name: milvus-etcd
       definition:
-          version: '3.5'
-          services:
-            etcd:
-              image: "quay.io/coreos/etcd:latest"
-              command: etcd -listen-peer-urls=http://127.0.0.1:2380 -advertise-client-urls=http://127.0.0.1:2379 -listen-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001 -initial-advertise-peer-urls=http://127.0.0.1:2380 --listen-metrics-urls=http://127.0.0.1:2381 --initial-cluster default=http://127.0.0.1:2380
-              ports:
-                - "2379:2379"
-              healthcheck:
-                  test: ["CMD", "wget", "-q", "--tries=1", "--spider", "http://localhost:2381/health"]
-                  interval: 30s
-                  timeout: 20s
-                  retries: 3
-              networks:
+          version: '3.7'
+          x-variables:
+          # flag_initial_cluster_token: &flag_initial_cluster_token '--initial-cluster-token=mys3cr3ttok3n'
+            common_settings: &common_settings
+                image: quay.io/coreos/etcd:v3.4.18
+                entrypoint: /usr/local/bin/etcd
+                ports:
+                    - 2379
+                networks:
                 - name: host
                   ipv4_address: 10.170.0.10
+                  
+          services:
+                Milvus-etcd:
+                  <<: *common_settings
+                  command:
+                      - '--initial-advertise-peer-urls=http://127.0.0.1:2380'
+                      - '--listen-peer-urls=http://0.0.0.0:2380'
+                      - '--listen-client-urls=http://0.0.0.0:2379'
+                      - '--advertise-client-urls=http://etcd-1:2379'
+                      - '--heartbeat-interval=250'
+                      - '--election-timeout=1250'
+                      - '--initial-cluster=Milvus-etcd=http://127.0.0.1:2380
+                      - '--initial-cluster-state=new'
+                      # - *flag_initial_cluster_token
+
+            # etcd:
+            #   image: "quay.io/coreos/etcd:latest"
+            #   command: etcd -listen-peer-urls=http://127.0.0.1:2380 -advertise-client-urls=http://127.0.0.1:2379 -listen-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001 -initial-advertise-peer-urls=http://127.0.0.1:2380 --listen-metrics-urls=http://127.0.0.1:2381 --initial-cluster default=http://127.0.0.1:2380
+            #   ports:
+            #     - "2379:2379"
+            #   healthcheck:
+            #       test: ["CMD", "wget", "-q", "--tries=1", "--spider", "http://localhost:2381/health"]
+            #       interval: 30s
+            #       timeout: 20s
+            #       retries: 3
+            #   networks:
+            #     - name: host
+            #       ipv4_address: 10.170.0.10
      
 
   # Create milvus-minio
