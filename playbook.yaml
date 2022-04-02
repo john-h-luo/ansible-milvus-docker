@@ -82,10 +82,15 @@
   remote_user: jayhwa_lor
   become: true
   vars:
-    pulsar_ip: "{{groups['pulsar_ips_private'][0]}}"
+    pulsar_ip: "{{170.0.0.4}}"
   tags:
     - start
   tasks:
+  - name: Creates directory
+    file:
+      path: /home/jayhwa_lor/etcd/
+      state: directory
+
   - name: Copy pulsar config
     ansible.builtin.template:
       src: ./yaml_files/pulsar.j2
