@@ -2,7 +2,7 @@
 - hosts: all
   
   become: yes
-  become_user: "{{ lookup('env','USER') }}"
+  become_user: "{{ lookup('env','jayhwa_lor') }}"
   tasks:
 
   # Create Portainer Volume
