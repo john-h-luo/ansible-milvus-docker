@@ -8,7 +8,6 @@
   # --
   # 
   - name: Create milvus-etcd
-    hosts: 34.92.97.227
     community.docker.docker_container:
       name: milvus-etcd
       image: "quay.io/coreos/etcd:latest"
