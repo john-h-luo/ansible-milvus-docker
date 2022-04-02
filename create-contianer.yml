@@ -18,9 +18,9 @@
         interval: 30s
         timeout: 20s
         retries: 3
-      networks:
-        - name: host
-          ipv4_address: 10.170.0.10
+      # networks:
+      #   - name: host
+      #     ipv4_address: 10.170.0.10
       ports:
         - "2379:2379"
 
