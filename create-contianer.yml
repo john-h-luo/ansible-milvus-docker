@@ -1,5 +1,5 @@
 ---
-- hosts: 10.170.0.5
+- hosts: d2
 
 - become: yes
   become_user: "{{ lookup('env','jayhwa_lor') }}"
