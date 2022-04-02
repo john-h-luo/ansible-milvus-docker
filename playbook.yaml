@@ -85,10 +85,11 @@
     pulsar_ip: "{{170.0.0.4}}"
   tags:
     - start
+
   tasks:
   - name: Creates directory
     file:
-      path: /home/jayhwa_lor/etcd/
+      path: /home/jayhwa_lor/pulsar/
       state: directory
 
   - name: Copy pulsar config
