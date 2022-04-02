@@ -18,7 +18,7 @@
       #   interval: 30s
       #   timeout: 20s
       #   retries: 3
-      # network_mode: host
+      network_mode: host
       ports:
         - "2379:2379"
 
