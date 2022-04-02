@@ -132,32 +132,36 @@
 #       chdir: /home/jayhwa_lor/minio/
 
 
-# - name: root_coordinator
-#   hosts: 35.220.249.177
-#   remote_user: jayhwa_lor
-#   become: true
-#   vars:
-#     etcd_ip: "{{groups['etcd_ips_private'][0]}}"
-#     minio_ip: "{{groups['minio_ips_private'][0]}}"
-#     pulsar_ip: "{{groups['pulsar_ips_private'][0]}}"
-#     rootcoord_index: "groups['root_coordinator_ips_public'].index(inventory_hostname)"
-#     rootcoord_ip: "{{groups['root_coordinator_ips_private'][rootcoord_index | int]}}"
-#   tags:
-#     - start
+- name: root_coordinator
+  hosts: 10.170.0.5
+  remote_user: jayhwa_lor
+  become: true
+  vars:
+    etcd_ip: "10.170.0.4"
+    minio_ip: "10.170.0.4"
+    pulsar_ip: "10.170.0.4"
+    # rootcoord_index: "10.170.0.5"
+    rootcoord_ip: "10.170.0.5"
+  tags:
+    - start
 
-#   tasks:
-#   - name: Copy root_coordinator config
-#     ansible.builtin.template:
-#       src: ./yaml_files/rootcoord.j2
-#       dest: /home/jayhwa_lor/root_coordinator/docker-compose.yml
-#       owner: jayhwa_lor
-#       group: wheel
-#       mode: '0644'
+  tasks:
+  - name: Creates directory
+    file:
+      path: /home/jayhwa_lor/root_coordinator/
+      state: directory
+  - name: Copy root_coordinator config
+    ansible.builtin.template:
+      src: ./yaml_files/rootcoord.j2
+      dest: /home/jayhwa_lor/root_coordinator/docker-compose.yml
+      owner: jayhwa_lor
+      group: jayhwa_lor
+      mode: '0644'
 
-#   - name: Run root_coordinator node
-#     shell: docker-compose up -d
-#     args:
-#       chdir: /home/jayhwa_lor/root_coordinator/
+  - name: Run root_coordinator node
+    shell: docker-compose up -d
+    args:
+      chdir: /home/jayhwa_lor/root_coordinator/
 
 # - name: data_coordinator
 #   hosts: 35.220.249.177
