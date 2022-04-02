@@ -34,7 +34,7 @@
                       - '--advertise-client-urls=http://etcd-1:2379'
                       - '--heartbeat-interval=250'
                       - '--election-timeout=1250'
-                      - '--initial-cluster=http://127.0.0.1:2380
+                      - '--initial-cluster default=http://127.0.0.1:2380'
                       - '--initial-cluster-state=new'
                       # - *flag_initial_cluster_token
 
