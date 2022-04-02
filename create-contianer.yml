@@ -21,7 +21,6 @@
       # network_mode: host
       ports:
         - "2379:2379"
-      restart_policy: always
 
   # Create milvus-minio
   # --
