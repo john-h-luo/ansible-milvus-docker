@@ -1,5 +1,4 @@
 ---
-- hosts: 10.170.0.5
 - become: yes
   become_user: "{{ lookup('env','jayhwa_lor') }}"
   tasks:
@@ -8,6 +7,7 @@
   # --
   # 
   - name: Create milvus-etcd
+  - hosts: 10.170.0.5
     community.docker.docker_container:
       name: milvus-etcd
       image: "quay.io/coreos/etcd:latest"
