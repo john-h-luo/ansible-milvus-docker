@@ -5,7 +5,8 @@ services:
   pulsar:
     container_name: milvus-pulsar
     image: apachepulsar/pulsar:latest
-    command: bin/pulsar standalone
+    command: bin/pulsar standalonegit 
     ports:
       - "6650:6650"
+    network_mode: host
 
