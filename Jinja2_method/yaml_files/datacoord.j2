@@ -11,5 +11,9 @@ services:
       MINIO_ADDRESS: {{minio_ip}}:9000
       PULSAR_ADDRESS: pulsar://{{pulsar_ip}}:6650
       DATA_COORD_ADDRESS: {{datacoord_ip}}:13333
+    ports:
+      - 13333:13333
+      - 9091:9091
     network_mode: "host"
+
 

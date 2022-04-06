@@ -1,5 +1,5 @@
 # - name: All Servers
-#   hosts: ansible-workers
+#   hosts: all
 #   remote_user: jayhwa_lor
 #   become: true
 #   tags:
@@ -50,31 +50,29 @@
 #       dest: /usr/local/bin/docker-compose
 #       mode: 755
 
-- name: etcd
-  hosts: 10.170.0.5
-  remote_user: jayhwa_lor
-  become: true
-  tags:
-    - start
 
-  tasks:
-  - name: Creates directory
-    file:
-      path: /home/jayhwa_lor/etcd/
-      state: directory
-
-  - name: Copy etcd config
-    ansible.builtin.template:
-      src: ./yaml_files/etcd.j2
-      dest: /home/jayhwa_lor/etcd/docker-compose.yml
-      owner: jayhwa_lor
-      group: jayhwa_lor
-      mode: '0644'
-
-  - name: Run etcd node
-    shell: docker-compose up -d
-    args:
-      chdir: /home/jayhwa_lor/etcd/
+# - name: etcd
+#   hosts: 10.170.0.5
+#   remote_user: jayhwa_lor
+#   become: true
+#   tags:
+#     - start
+#   tasks:
+#   - name: Creates etcd directory
+#     file:
+#       path: /home/jayhwa_lor/etcd/
+#       state: directory
+#   - name: Copy etcd config
+#     ansible.builtin.template:
+#       src: ./yaml_files/etcd.j2
+#       dest: /home/jayhwa_lor/etcd/docker-compose.yml
+#       owner: jayhwa_lor
+#       group: jayhwa_lor
+#       mode: '0644'
+#   - name: Run etcd node
+#     shell: docker-compose up -d
+#     args:
+#       chdir: /home/jayhwa_lor/etcd/
 
 
 # - name: pulsar
@@ -85,13 +83,11 @@
 #     pulsar_ip: "{{170.0.0.4}}"
 #   tags:
 #     - start
-
 #   tasks:
-#   - name: Creates directory
+#   - name: Creates pulsar directory
 #     file:
 #       path: /home/jayhwa_lor/pulsar/
 #       state: directory
-
 #   - name: Copy pulsar config
 #     ansible.builtin.template:
 #       src: ./yaml_files/pulsar.j2
@@ -99,11 +95,11 @@
 #       owner: jayhwa_lor
 #       group: jayhwa_lor
 #       mode: '0644'
-
 #   - name: Run pulsar node
 #     shell: docker-compose up -d
 #     args:
 #       chdir: /home/jayhwa_lor/pulsar/
+
 
 # - name: minio
 #   hosts: 34.92.97.227
@@ -111,10 +107,8 @@
 #   become: true
 #   tags:
 #     - start
-
-
 #   tasks:
-#   - name: Creates directory
+#   - name: Creates minio directory
 #     file:
 #       path: /home/jayhwa_lor/minio/
 #       state: directory
@@ -125,14 +119,43 @@
 #       owner: jayhwa_lor
 #       group: jayhwa_lor
 #       mode: '0644'
-
 #   - name: Run minio node
 #     shell: docker-compose up -d
 #     args:
 #       chdir: /home/jayhwa_lor/minio/
 
 
-- name: root_coordinator
+# - name: root_coordinator
+#   hosts: 10.170.0.5
+#   remote_user: jayhwa_lor
+#   become: true
+#   vars:
+#     etcd_ip: "10.170.0.4"
+#     minio_ip: "10.170.0.4"
+#     pulsar_ip: "10.170.0.4"
+#     # rootcoord_index: "10.170.0.5"
+#     rootcoord_ip: "10.170.0.5"
+#   tags:
+#     - start
+#   tasks:
+#   - name: Creates root_coordinator directory
+#     file:
+#       path: /home/jayhwa_lor/root_coordinator/
+#       state: directory
+#   - name: Copy root_coordinator config
+#     ansible.builtin.template:
+#       src: ./yaml_files/rootcoord.j2
+#       dest: /home/jayhwa_lor/root_coordinator/docker-compose.yml
+#       owner: jayhwa_lor
+#       group: jayhwa_lor
+#       mode: '0644'
+#   - name: Run root_coordinator node
+#     shell: docker-compose up -d
+#     args:
+#       chdir: /home/jayhwa_lor/root_coordinator/
+
+
+- name: data node
   hosts: 10.170.0.5
   remote_user: jayhwa_lor
   become: true
@@ -140,30 +163,135 @@
     etcd_ip: "10.170.0.4"
     minio_ip: "10.170.0.4"
     pulsar_ip: "10.170.0.4"
-    # rootcoord_index: "10.170.0.5"
-    rootcoord_ip: "10.170.0.5"
+    datacoord_ip: "10.170.0.5"
   tags:
     - start
-
   tasks:
-  - name: Creates directory
+  - name: Creates data node directory
     file:
-      path: /home/jayhwa_lor/root_coordinator/
+      path: /home/jayhwa_lor/data/
       state: directory
-  - name: Copy root_coordinator config
+  - name: Copy data config
     ansible.builtin.template:
-      src: ./yaml_files/rootcoord.j2
-      dest: /home/jayhwa_lor/root_coordinator/docker-compose.yml
+      src: ./yaml_files/datanode.j2
+      dest: /home/jayhwa_lor/data/docker-compose.yml
       owner: jayhwa_lor
-      group: jayhwa_lor
+      group: wheel
       mode: '0644'
-
-  - name: Run root_coordinator node
+  - name: Run data node
     shell: docker-compose up -d
     args:
-      chdir: /home/jayhwa_lor/root_coordinator/
+      chdir: /home/jayhwa_lor/data/
 
-# - name: data_coordinator
+
+- name: data_coordinator
+  hosts: 10.170.0.5
+  remote_user: jayhwa_lor
+  become: true
+  vars:
+    etcd_ip: "10.170.0.4"
+    minio_ip: "10.170.0.4"
+    pulsar_ip: "10.170.0.4"
+    datacoord_ip: "10.170.0.5"
+  tags:
+    - start
+  tasks:
+  - name: Creates data_coordinator directory
+    file:
+      path: /home/jayhwa_lor/data_coordinator/
+      state: directory    
+  - name: Copy data_coordinator config
+    ansible.builtin.template:
+      src: ./yaml_files/datacoord.j2
+      dest: /home/jayhwa_lor/data_coordinator/docker-compose.yml
+      owner: jayhwa_lor
+      group: wheel
+      mode: '0644'
+  - name: Run data_coordinator node
+    shell: docker-compose up -d
+    args:
+      chdir: /home/jayhwa_lor/data_coordinator/
+
+
+- name: proxy node
+  hosts: 34.92.97.227
+  remote_user: jayhwa_lor
+  become: true
+  vars:
+    etcd_ip: "10.170.0.4"
+    minio_ip: "10.170.0.4"
+    pulsar_ip: "10.170.0.4"
+  tags:
+    - start
+  tasks:
+  - name: Creates proxy node directory
+    file:
+      path: /home/jayhwa_lor/proxy/
+      state: directory 
+  - name: Copy proxy config
+    ansible.builtin.template:
+      src: ./yaml_files/proxynode.j2
+      dest: /home/jayhwa_lor/proxy/docker-compose.yml
+      owner: jayhwa_lor
+      group: wheel
+      mode: '0644'
+  - name: Run proxy node
+    shell: docker-compose up -d
+    args:
+      chdir: /home/jayhwa_lor/proxy/
+
+
+- name: query_node
+  hosts: 10.170.0.5
+  remote_user: jayhwa_lor
+  become: true
+  vars:
+    etcd_ip: "{{groups['etcd_ips_private'][0]}}"
+    minio_ip: "{{groups['minio_ips_private'][0]}}"
+    pulsar_ip: "{{groups['pulsar_ips_private'][0]}}"
+  tags:
+    - start
+  tasks:
+  - name: Copy query config
+    ansible.builtin.template:
+      src: ./yaml_files/querynode.j2
+      dest: /home/jayhwa_lor/query/docker-compose.yml
+      owner: jayhwa_lor
+      group: wheel
+      mode: '0644'
+  - name: Run query node
+    shell: docker-compose up -d
+    args:
+      chdir: /home/jayhwa_lor/query/
+
+
+- name: query_coordinator
+  hosts: 10.170.0.5
+  remote_user: jayhwa_lor
+  become: true
+  vars:
+    etcd_ip: "{{groups['etcd_ips_private'][0]}}"
+    minio_ip: "{{groups['minio_ips_private'][0]}}"
+    pulsar_ip: "{{groups['pulsar_ips_private'][0]}}"
+    querycoord_index: "groups['query_coordinator_ips_public'].index(inventory_hostname)"
+    querycoord_ip: "{{groups['query_coordinator_ips_private'][querycoord_index | int]}}"
+  tags:
+    - start
+  tasks:
+  - name: Copy query_coordinator config
+    ansible.builtin.template:
+      src: ./yaml_files/querycoord.j2
+      dest: /home/jayhwa_lor/query_coordinator/docker-compose.yml
+      owner: jayhwa_lor
+      group: wheel
+      mode: '0644'
+  - name: Run query_coordinator node
+    shell: docker-compose up -d
+    args:
+      chdir: /home/jayhwa_lor/query_coordinator/
+
+
+# - name: index_node
 #   hosts: 35.220.249.177
 #   remote_user: jayhwa_lor
 #   become: true
@@ -171,51 +299,22 @@
 #     etcd_ip: "{{groups['etcd_ips_private'][0]}}"
 #     minio_ip: "{{groups['minio_ips_private'][0]}}"
 #     pulsar_ip: "{{groups['pulsar_ips_private'][0]}}"
-#     datacoord_index: "{{groups['data_coordinator_ips_public'].index(inventory_hostname)}}"
-#     datacoord_ip: "{{groups['data_coordinator_ips_private'][datacoord_index | int]}}"
+#     indexcoord_ip: "{{groups['index_coordinator_ips_private'][0]}}"
 #   tags:
 #     - start
-
 #   tasks:
-#   - name: Copy data_coordinator config
+#   - name: Copy index config
 #     ansible.builtin.template:
-#       src: ./yaml_files/datacoord.j2
-#       dest: /home/jayhwa_lor/data_coordinator/docker-compose.yml
+#       src: ./yaml_files/indexnode.j2
+#       dest: /home/jayhwa_lor/index/docker-compose.yml
 #       owner: jayhwa_lor
 #       group: wheel
 #       mode: '0644'
-
-#   - name: Run data_coordinator node
+#   - name: Run index node
 #     shell: docker-compose up -d
 #     args:
-#       chdir: /home/jayhwa_lor/data_coordinator/
+#       chdir: /home/jayhwa_lor/index/
 
-# - name: query_coordinator
-#   hosts: 35.220.249.177
-#   remote_user: jayhwa_lor
-#   become: true
-#   vars:
-#     etcd_ip: "{{groups['etcd_ips_private'][0]}}"
-#     minio_ip: "{{groups['minio_ips_private'][0]}}"
-#     pulsar_ip: "{{groups['pulsar_ips_private'][0]}}"
-#     querycoord_index: "groups['query_coordinator_ips_public'].index(inventory_hostname)"
-#     querycoord_ip: "{{groups['query_coordinator_ips_private'][querycoord_index | int]}}"
-#   tags:
-#     - start
-
-#   tasks:
-#   - name: Copy query_coordinator config
-#     ansible.builtin.template:
-#       src: ./yaml_files/querycoord.j2
-#       dest: /home/jayhwa_lor/query_coordinator/docker-compose.yml
-#       owner: jayhwa_lor
-#       group: wheel
-#       mode: '0644'
-
-#   - name: Run query_coordinator node
-#     shell: docker-compose up -d
-#     args:
-#       chdir: /home/jayhwa_lor/query_coordinator/
 
 # - name: index_coordinator
 #   hosts: 35.220.249.177
@@ -229,7 +328,6 @@
 #     indexcoord_ip: "{{groups['index_coordinator_ips_private'][indexcoord_index | int]}}"
 #   tags:
 #     - start
-
 #   tasks:
 #   - name: Copy index_coordinator config
 #     ansible.builtin.template:
@@ -238,131 +336,23 @@
 #       owner: jayhwa_lor
 #       group: wheel
 #       mode: '0644'
-
 #   - name: Run index_coordinator node
 #     shell: docker-compose up -d
 #     args:
 #       chdir: /home/jayhwa_lor/index_coordinator/
 
 
-
-# - name: query
-#   hosts: 35.220.249.177
-#   remote_user: jayhwa_lor
-#   become: true
-#   vars:
-#     etcd_ip: "{{groups['etcd_ips_private'][0]}}"
-#     minio_ip: "{{groups['minio_ips_private'][0]}}"
-#     pulsar_ip: "{{groups['pulsar_ips_private'][0]}}"
-#   tags:
-#     - start
-
-#   tasks:
-#   - name: Copy query config
-#     ansible.builtin.template:
-#       src: ./yaml_files/querynode.j2
-#       dest: /home/jayhwa_lor/query/docker-compose.yml
-#       owner: jayhwa_lor
-#       group: wheel
-#       mode: '0644'
-
-#   - name: Run query node
-#     shell: docker-compose up -d
-#     args:
-#       chdir: /home/jayhwa_lor/query/
-
-# - name: index
-#   hosts: 35.220.249.177
-#   remote_user: jayhwa_lor
-#   become: true
-#   vars:
-#     etcd_ip: "{{groups['etcd_ips_private'][0]}}"
-#     minio_ip: "{{groups['minio_ips_private'][0]}}"
-#     pulsar_ip: "{{groups['pulsar_ips_private'][0]}}"
-#     indexcoord_ip: "{{groups['index_coordinator_ips_private'][0]}}"
-#   tags:
-#     - start
-
-#   tasks:
-#   - name: Copy index config
-#     ansible.builtin.template:
-#       src: ./yaml_files/indexnode.j2
-#       dest: /home/jayhwa_lor/index/docker-compose.yml
-#       owner: jayhwa_lor
-#       group: wheel
-#       mode: '0644'
-
-#   - name: Run index node
-#     shell: docker-compose up -d
-#     args:
-#       chdir: /home/jayhwa_lor/index/
-
-
-# - name: data
-#   hosts: 34.92.97.227
-#   remote_user: jayhwa_lor
-#   become: true
-#   vars:
-#     etcd_ip: "{{groups['etcd_ips_private'][0]}}"
-#     minio_ip: "{{groups['minio_ips_private'][0]}}"
-#     pulsar_ip: "{{groups['pulsar_ips_private'][0]}}"
-#     datacoord_ip: "{{groups['data_coordinator_ips_private'][0]}}"
-#   tags:
-#     - start
-
-#   tasks:
-#   - name: Copy data config
-#     ansible.builtin.template:
-#       src: ./yaml_files/datanode.j2
-#       dest: /home/jayhwa_lor/data/docker-compose.yml
-#       owner: jayhwa_lor
-#       group: wheel
-#       mode: '0644'
-
-#   - name: Run data node
-#     shell: docker-compose up -d
-#     args:
-#       chdir: /home/jayhwa_lor/data/
-
-# - name: proxy
-#   hosts: 34.92.97.227
-#   remote_user: jayhwa_lor
-#   become: true
-#   vars:
-#     etcd_ip: "{{groups['etcd_ips_private'][0]}}"
-#     minio_ip: "{{groups['minio_ips_private'][0]}}"
-#     pulsar_ip: "{{groups['pulsar_ips_private'][0]}}"
-#   tags:
-#     - start
-
-#   tasks:
-#   - name: Copy proxy config
-#     ansible.builtin.template:
-#       src: ./yaml_files/proxynode.j2
-#       dest: /home/jayhwa_lor/proxy/docker-compose.yml
-#       owner: jayhwa_lor
-#       group: wheel
-#       mode: '0644'
-
-#   - name: Run proxy node
-#     shell: docker-compose up -d
-#     args:
-#       chdir: /home/jayhwa_lor/proxy/
-
 # - name: All Servers Restart
 #   hosts: ansible-workers
 #   remote_user: jayhwa_lor
 #   become: true
-
 #   tags:
 #     - restart
-
 #   tasks:
 #     - name: docker down
 #       shell: docker-compose down
 #       args:
 #         chdir: /home/jayhwa_lor/
-
 #     - name: docker up
 #       shell: docker-compose up -d
 #       args:

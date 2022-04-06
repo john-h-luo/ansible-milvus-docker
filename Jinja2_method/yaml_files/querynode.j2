@@ -10,4 +10,7 @@ services:
       ETCD_ENDPOINTS: {{etcd_ip}}:2379
       MINIO_ADDRESS: {{minio_ip}}:9000
       PULSAR_ADDRESS: pulsar://{{pulsar_ip}}:6650
+    ports:
+      - 21123:21123
+      - 9091:9091
     network_mode: "host"
