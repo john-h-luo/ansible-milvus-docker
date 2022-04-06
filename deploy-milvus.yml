@@ -1,19 +1,11 @@
 ---
-  # # Create milvus-etcd
-  # - name: Create milvus-etcd
-  #   hosts:  swarm-manager
-  #   # become: yes
-  #   # become_user: root
-  #   roles:
-  #     - deploy-etcd
-- name: deploy-etcd
-  hosts: swarm-manager
-  tags: docker
-  tasks:
-    - name: Create container 
-      docker_container: 
-         name: mydata 
-         image: busybox 
+  # Create milvus-etcd
+  - name: Create milvus-etcd
+    hosts:  swarm-manager
+    # become: yes
+    # become_user: root
+    roles:
+      - deploy-etcd
 
 # - name: Create etcd service
 #   docker_container:
