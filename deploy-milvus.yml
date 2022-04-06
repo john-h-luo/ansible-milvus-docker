@@ -18,14 +18,11 @@
       reservations:
       cpus: 100
       memory: 200M
-      limits:
-        cpus: 200
-        memory: 400M
-        healthcheck:
-        test: ["CMD", "wget", "-q", "--tries=1", "--spider", "http://localhost:2381/health"]
-        interval: 30s
-        timeout: 20s
-        retries: 3
+      healthcheck:
+      test: ["CMD", "wget", "-q", "--tries=1", "--spider", "http://localhost:2381/health"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
       ports:
         - 2379:2379
       network_mode: overlay
