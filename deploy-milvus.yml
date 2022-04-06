@@ -2,8 +2,8 @@
   # Create milvus-etcd
   - name: Create milvus-etcd
     hosts:  swarm-manager
-    become: yes
-    become_user: root
+    # become: yes
+    # become_user: root
     roles:
       - deploy-etcd
 
