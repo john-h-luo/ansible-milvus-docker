@@ -22,7 +22,7 @@
         retries: 3
       ports:
         - 2379:2379
-      network_mode: overlay
+      network_mode: ingress
 
 # - name: Create etcd service
 #   docker_container:
