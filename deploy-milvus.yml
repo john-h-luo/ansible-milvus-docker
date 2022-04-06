@@ -6,17 +6,15 @@
   #   # become_user: root
   #   roles:
   #     - deploy-etcd
-- name: Play name
-  hosts: your_hosts
-  tags: your tag
-  gather_facts: no|yes
+- name: deploy-etcd
+  hosts: swarm-manager
+  tags: docker
   tasks:
     - name: Create container 
       docker_container: 
          name: mydata 
          image: busybox 
-         volumes:
-            - /data
+
 # - name: Create etcd service
 #   docker_container:
 #     name: etcd
