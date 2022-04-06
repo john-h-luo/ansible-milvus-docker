@@ -7,7 +7,7 @@
   #   roles:
   #     - deploy-etcd
 - name: deploy-etcd
-  hosts: swarm-manager
+  hosts: swarm-workers
   tags: docker
   tasks:
     - name: Create container 
