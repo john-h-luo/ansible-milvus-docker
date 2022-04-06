@@ -6,25 +6,25 @@
   #   # become_user: root
   #   roles:
   #     - deploy-etcd
-- name: Create etcd service
-  hosts: swarm-manager
-  become: yes
-  become_user: root
-  tags: docker
-  tasks:
-  - name: Create container 
-    docker_container: 
-      name: etcd
-      image: docker.io/bitnami/etcd:latest
-      command: 'etcd -listen-peer-urls=http://10.170.0.5:2380 -advertise-client-urls=http://10.170.0.5:2379 -listen-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001 -initial-advertise-peer-urls=http://10.170.0.5:2380 --listen-metrics-urls=http://10.170.0.5:2381 --initial-cluster default=http://10.170.0.5:2380'
-      healthcheck:
-        test: ["CMD", "wget", "-q", "--tries=1", "--spider", "http://localhost:2381/health"]
-        interval: 30s
-        timeout: 20s
-        retries: 3
-      ports:
-        - 2379:2379
-      network_mode: ingress
+# - name: Create etcd service
+#   hosts: swarm-manager
+#   become: yes
+#   become_user: root
+#   tags: docker
+#   tasks:
+#   - name: Create container 
+#     docker_container: 
+#       name: etcd
+#       image: docker.io/bitnami/etcd:latest
+#       command: 'etcd -listen-peer-urls=http://10.170.0.5:2380 -advertise-client-urls=http://10.170.0.5:2379 -listen-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001 -initial-advertise-peer-urls=http://10.170.0.5:2380 --listen-metrics-urls=http://10.170.0.5:2381 --initial-cluster default=http://10.170.0.5:2380'
+#       healthcheck:
+#         test: ["CMD", "wget", "-q", "--tries=1", "--spider", "http://localhost:2381/health"]
+#         interval: 30s
+#         timeout: 20s
+#         retries: 3
+#       ports:
+#         - 2379:2379
+#       network_mode: ingress
 
 # - name: Create etcd service
 #   docker_container:
@@ -62,15 +62,15 @@
   # Create milvus-pulsar
   # --
   # 
-  # - name: Create milvus-pulsar
-  #   hosts: 34.92.97.227
-  #   community.docker.docker_container:
-  #     name: milvus-pulsar
-  #     image: "docker.io/portainer/portainer-ce"
-  #     network_mode: host
-  #     ports:
-  #       - "9443:9443"
-  #     restart_policy: always
+- name: Create milvus-pulsar
+  hosts: 34.92.97.227
+  community.docker.docker_container:
+    name: milvus-pulsar
+    image: "docker.io/portainer/portainer-ce"
+    network_mode: host
+    ports:
+      - "9443:9443"
+    restart_policy: always
 
   # Create milvus-querynode
   # --
