@@ -1,10 +1,4 @@
 ---
-- hosts: d2
-
-  become: yes
-  become_user: "{{ lookup('env','jayhwa_lor') }}"
-  tasks:
-
   # Create milvus-etcd
   - name: Create milvus-etcd
     hosts:  swarm-manager
