@@ -6,12 +6,17 @@
   #   # become_user: root
   #   roles:
   #     - deploy-etcd
-- name: Create a data container
-  docker_container:
-    name: mydata
-    image: busybox
-    volumes:
-      - /data
+- name: Play name
+  hosts: your_hosts
+  tags: your tag
+  gather_facts: no|yes
+  tasks:
+    - name: Create container 
+      docker_container: 
+         name: mydata 
+         image: busybox 
+         volumes:
+            - /data
 # - name: Create etcd service
 #   docker_container:
 #     name: etcd
