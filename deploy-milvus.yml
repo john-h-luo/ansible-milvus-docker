@@ -70,7 +70,7 @@
   - name: debugging
     debug:
       # var: rootcoord.container.NetworkSettings.Networks.milvus_net.IPAddress
-      var: "{{ etcd }}"
+      msg: "{{ etcd }}"
 
   - name: milvus-rootcoord
     docker_container: 
@@ -78,7 +78,7 @@
       image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
       command: ["milvus", "run", "rootcoord"]
       env:
-        ETCD_ENDPOINTS: '{{ etcd }}:2379
+        ETCD_ENDPOINTS: "{{ etcd }}:2379"
         # MINIO_ADDRESS: hostvars["swarm-manager"]["minio"]["container"]["NetworkSettings"]["Networks"]["milvus_net"]["IPAddress"]:9000
         # PULSAR_ADDRESS: pulsar://hostvars["swarm-manager"]["pulsar"]["container"]["NetworkSettings"]["Networks"]["milvus_net"]["IPAddress"]:6650
         # ROOT_COORD_ADDRESS: "127.0.0.1:53100"
