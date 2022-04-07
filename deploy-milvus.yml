@@ -71,7 +71,7 @@
         ROOT_COORD_ADDRESS: 10.0.1.101:53100
       network_mode: milvus-network
       networks:
-        name: rootcoord
+        name: "rootcoord"
         ipv4_address: "10.0.1.101"
       ports:
         - "53100"
