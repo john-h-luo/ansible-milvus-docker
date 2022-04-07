@@ -12,6 +12,8 @@
   become: yes
   become_user: root
   tags: docker
+  vars:
+    network: milvus_net
   tasks:
   - name: Create milvus-etcd
     docker_container: 
@@ -25,7 +27,7 @@
         retries: 3
       ports:
         - 2379
-      network_mode: milvus-network
+      network_mode: {{ network }}
 
   - name: milvus-minio
     docker_container: 
@@ -40,7 +42,7 @@
         interval: 30s
         timeout: 20s
         retries: 3
-      network_mode: milvus-network
+      network_mode: {{ network }}
       ports:
         - 9000
 
@@ -49,7 +51,7 @@
       name: milvus-pulsar
       image: apachepulsar/pulsar:latest
       command: 'bin/pulsar standalone'
-      network_mode: milvus-network
+      network_mode: {{ network }}
       ports:
         - "6650"
 
@@ -69,7 +71,7 @@
         MINIO_ADDRESS: "10.0.1.8:9000"
         PULSAR_ADDRESS: pulsar://10.0.1.9:6650
         ROOT_COORD_ADDRESS: 10.0.1.101:53100
-      network_mode: milvus-network
+      network_mode: {{ network }}
       # networks:
       #   name: "rootcoord"
       #   ipv4_address: "10.0.1.101"
@@ -93,7 +95,7 @@
         PULSAR_ADDRESS: pulsar://10.0.1.9:6650
         ROOT_COORD_ADDRESS: 10.0.1.31:53100
         DATA_COORD_ADDRESS: localhost:13333
-      network_mode: milvus-network
+      network_mode: {{ network }}
       ports:
         - "13333"
         - "9091"           
@@ -108,7 +110,7 @@
         MINIO_ADDRESS: "10.0.1.8:9000"
         PULSAR_ADDRESS: pulsar://10.0.1.9:6650
         INDEX_COORD_ADDRESS: localhost:31000
-      network_mode: milvus-network
+      network_mode: {{ network }}
       ports:
         - "31000"
         - "9091"  
@@ -123,7 +125,7 @@
         MINIO_ADDRESS: "10.0.1.8:9000"
         PULSAR_ADDRESS: pulsar://10.0.1.9:6650
         QUERY_COORD_ADDRESS: localhost:19531
-      network_mode: milvus-network
+      network_mode: {{ network }}
       ports:
         - "19531"
         - "9091"  
@@ -137,7 +139,7 @@
         ETCD_ENDPOINTS: "10.0.1.7:2379"
         MINIO_ADDRESS: "10.0.1.8:9000"
         PULSAR_ADDRESS: pulsar://10.0.1.9:6650
-      network_mode: milvus-network
+      network_mode: {{ network }}
       ports:
         - "21123"
         - "9091"  
