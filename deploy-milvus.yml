@@ -12,8 +12,6 @@
   become: yes
   become_user: root
   tags: docker
-  vars:
-    network: milvus_net
   tasks:
   - name: Create milvus-etcd
     docker_container: 
