@@ -43,7 +43,7 @@
         interval: 30s
         timeout: 20s
         retries: 3
-      network_mode: {{ network }}
+      network_mode: "{{ network }}"
       ports:
         - 9000
     register: minio
@@ -53,7 +53,7 @@
       name: milvus-pulsar
       image: apachepulsar/pulsar:latest
       command: 'bin/pulsar standalone'
-      network_mode: {{ network }}
+      network_mode: "{{ network }}"
       ports:
         - "6650"
     register: pulsar
