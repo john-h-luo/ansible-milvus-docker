@@ -66,7 +66,7 @@
       env:
         ETCD_ENDPOINTS: "10.0.2.8:2379"
         MINIO_ADDRESS: "10.0.2.10:9000"
-        PULSAR_ADDRESS: "10.0.2.11:6650"
+        PULSAR_ADDRESS: "pulsar//10.0.2.11:6650"
         ROOT_COORD_ADDRESS: "10.0.2.29:53100"
         DATA_COORD_ADDRESS: "10.0.2.28:13333"
         INDEX_COORD_ADDRESS: "10.0.2.30:31000"
@@ -103,7 +103,7 @@
       env:
         ETCD_ENDPOINTS: "10.0.2.8:2379"
         MINIO_ADDRESS: "10.0.2.10:9000"
-        PULSAR_ADDRESS: "10.0.2.11:6650"
+        PULSAR_ADDRESS: "pulsar//10.0.2.11:6650"
         ROOT_COORD_ADDRESS: "10.0.2.29:53100"
         DATA_COORD_ADDRESS: "10.0.2.28:13333"
         INDEX_COORD_ADDRESS: "10.0.2.30:31000"
@@ -125,7 +125,7 @@
       env:
         ETCD_ENDPOINTS: "10.0.2.8:2379"
         MINIO_ADDRESS: "10.0.2.10:9000"
-        PULSAR_ADDRESS: "10.0.2.11:6650"
+        PULSAR_ADDRESS: "pulsar//10.0.2.11:6650"
         ROOT_COORD_ADDRESS: "10.0.2.29:53100"
         DATA_COORD_ADDRESS: "10.0.2.28:13333"
         INDEX_COORD_ADDRESS: "10.0.2.30:31000"
@@ -147,7 +147,7 @@
       env:
         ETCD_ENDPOINTS: "10.0.2.8:2379"
         MINIO_ADDRESS: "10.0.2.10:9000"
-        PULSAR_ADDRESS: "10.0.2.11:6650"
+        PULSAR_ADDRESS: "pulsar//10.0.2.11:6650"
         ROOT_COORD_ADDRESS: "10.0.2.29:53100"
         DATA_COORD_ADDRESS: "10.0.2.28:13333"
         INDEX_COORD_ADDRESS: "10.0.2.30:31000"
@@ -169,7 +169,7 @@
       env:
         ETCD_ENDPOINTS: "10.0.2.8:2379"
         MINIO_ADDRESS: "10.0.2.10:9000"
-        PULSAR_ADDRESS: "10.0.2.11:6650"    
+        PULSAR_ADDRESS: "pulsar//10.0.2.11:6650"    
       network_mode: "{{ network }}"
       networks:
         - name: "{{ network }}"
