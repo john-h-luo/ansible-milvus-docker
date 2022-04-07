@@ -64,13 +64,13 @@
   become_user: root
   vars:
     network: milvus_net
-    etcd: hostvars[swarm-manager][etcd][container][NetworkSettings][Networks][milvus_net][IPAddress]
+    # etcd: {{hostvars[swarm-manager][etcd][container][NetworkSettings][Networks][milvus_net][IPAddress]}}
   tags: docker
   tasks:
   - name: debugging
     debug:
       # var: rootcoord.container.NetworkSettings.Networks.milvus_net.IPAddress
-      msg: "Print this {{ etcd }}"
+      msg: "Print this {{hostvars[swarm-manager][etcd][container][NetworkSettings][Networks][milvus_net][IPAddress]}}"
 
   - name: milvus-rootcoord
     docker_container: 
