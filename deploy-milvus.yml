@@ -55,7 +55,7 @@
 #       ports:
 #         - "6650"
 
-# - name: Create milvus all kinds of coordinator and node
+# - name: Create all kinds of milvus coordinator and node
 #   hosts: swarm-worker-01
 #   become: yes
 #   become_user: root
