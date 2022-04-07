@@ -63,7 +63,7 @@
     docker_container: 
       name: milvus-querynode
       image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
-      command: ["milvus", "run", "querycoord"]
+      command: 'milvus run querycoord'
       env:
         ETCD_ENDPOINTS: "10.0.1.7:2379"
         MINIO_ADDRESS: "10.0.1.8:9000"
@@ -75,7 +75,7 @@
     docker_container: 
       name: milvus-querynode
       image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
-      command: ["milvus", "run", "querynode"]
+      command: 'milvus run querynode'
       env:
         ETCD_ENDPOINTS: "10.0.1.7:2379"
         MINIO_ADDRESS: "10.0.1.8:9000"
