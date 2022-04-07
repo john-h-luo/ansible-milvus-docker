@@ -82,8 +82,10 @@
         ETCD_ENDPOINTS: "{{etcd}}"
         MINIO_ADDRESS: "{{minio}}"
         PULSAR_ADDRESS: "{{pulsar}}"
-        # ROOT_COORD_ADDRESS: "{{['rootcoord']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress']}}:53100"
-        DATA_COORD_ADDRESS: 127.0.0.1:13333
+        ROOT_COORD_ADDRESS: "10.0.2.29:53100"
+        DATA_COORD_ADDRESS: "10.0.2.28:13333"
+        INDEX_COORD_ADDRESS: "10.0.2.30:31000"
+        QUERY_COORD_ADDRESS: "10.0.2.31:19531"
       network_mode: "{{ network }}"
       network:
         name: datacoord
@@ -102,8 +104,14 @@
         ETCD_ENDPOINTS: "{{etcd}}"
         MINIO_ADDRESS: "{{minio}}"
         PULSAR_ADDRESS: "{{pulsar}}"
-        ROOT_COORD_ADDRESS: "127.0.0.1:53100"
+        ROOT_COORD_ADDRESS: "10.0.2.29:53100"
+        DATA_COORD_ADDRESS: "10.0.2.28:13333"
+        INDEX_COORD_ADDRESS: "10.0.2.30:31000"
+        QUERY_COORD_ADDRESS: "10.0.2.31:19531"
       network_mode: "{{ network }}"
+      network:
+        name: rootcoord
+        IPAddress: "10.0.2.29"
       ports:
         - "53100"
         - "9091"
@@ -118,8 +126,14 @@
         ETCD_ENDPOINTS: "{{etcd}}"
         MINIO_ADDRESS: "{{minio}}"
         PULSAR_ADDRESS: "{{pulsar}}"
-        INDEX_COORD_ADDRESS: 127.0.0.1:31000
+        ROOT_COORD_ADDRESS: "10.0.2.29:53100"
+        DATA_COORD_ADDRESS: "10.0.2.28:13333"
+        INDEX_COORD_ADDRESS: "10.0.2.30:31000"
+        QUERY_COORD_ADDRESS: "10.0.2.31:19531"
       network_mode: "{{ network }}"
+      network:
+        name: indexcoord
+        IPAddress: "10.0.2.30"
       ports:
         - "31000"
         - "9091"  
@@ -134,8 +148,14 @@
         ETCD_ENDPOINTS: "{{etcd}}"
         MINIO_ADDRESS: "{{minio}}"
         PULSAR_ADDRESS: "{{pulsar}}"
-        QUERY_COORD_ADDRESS: 127.0.0.1:19531
+        ROOT_COORD_ADDRESS: "10.0.2.29:53100"
+        DATA_COORD_ADDRESS: "10.0.2.28:13333"
+        INDEX_COORD_ADDRESS: "10.0.2.30:31000"
+        QUERY_COORD_ADDRESS: "10.0.2.31:19531"
       network_mode: "{{ network }}"
+      network:
+        name: querycoord
+        IPAddress: "10.0.2.31"
       ports:
         - "19531"
         - "9091"  
@@ -149,8 +169,11 @@
       env:
         ETCD_ENDPOINTS: "{{etcd}}"
         MINIO_ADDRESS: "{{minio}}"
-        PULSAR_ADDRESS: "{{pulsar}}"
+        PULSAR_ADDRESS: "{{pulsar}}"      
       network_mode: "{{ network }}"
+      network:
+        name: querynode
+        IPAddress: "10.0.2.32"
       ports:
         - "21123"
         - "9091"
