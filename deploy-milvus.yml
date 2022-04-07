@@ -48,23 +48,21 @@
     docker_container: 
       name: milvus-pulsar
       image: apachepulsar/pulsar:latest
-      command: bin/pulsar standalone
+      command: 'bin/pulsar standalone'
       network_mode: milvus-network
       ports:
         - "6650"
 
-  # Create milvus-pulsar
-  # --
-  # 
-# - name: Create milvus-pulsar
-#   hosts: 34.92.97.227
-#   community.docker.docker_container:
-#     name: milvus-pulsar
-#     image: "docker.io/portainer/portainer-ce"
-#     network_mode: host
-#     ports:
-#       - "9443:9443"
-#     restart_policy: always
+  - name: milvus-querynode
+    docker_container: 
+      name: milvus-querynode
+      image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
+      command: ["milvus", "run", "querynode"]
+      env:
+        ETCD_ENDPOINTS: "10.0.1.7:2379"
+        MINIO_ADDRESS: "10.0.1.8:9000"
+        PULSAR_ADDRESS: pulsar://10.0.1.9:6650
+      network_mode: milvus-network
 
   # Create milvus-querynode
   # --
