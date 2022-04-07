@@ -72,7 +72,7 @@
         ETCD_ENDPOINTS: "10.0.1.7:2379"
         MINIO_ADDRESS: "10.0.1.8:9000"
         PULSAR_ADDRESS: pulsar://10.0.1.9:6650
-        ROOT_COORD_ADDRESS: "{{rootcoord.container.NetworkSettings.Networks.milvus_net.IPAddress}}:53100"
+        ROOT_COORD_ADDRESS: "127.0.0.1:53100"
       network_mode: "{{ network }}"
       # networks:
       #   name: "rootcoord"
