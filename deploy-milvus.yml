@@ -85,7 +85,7 @@
   - name: debugging
     debug:
       # var: rootcoord.container.NetworkSettings.Networks.milvus_net.IPAddress
-      var: {{etcd}}
+      var: "{{etcd}}"
 
 #   - name: milvus-datacoord
 #     docker_container: 
