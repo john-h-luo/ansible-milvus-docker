@@ -57,14 +57,12 @@
 #       ports:
 #         - "6650"
 
-- name: Create milvus-etcd, minio, pulsar
+- name: Create all kinds of milvus coord & node
   hosts: swarm-worker-01
   become: yes
   become_user: root
-  # var:
-  #   network: milvus_net
-  #   host_01: swarm-manager
-  #   host_02: swarm-worker-01
+  var:
+    network: milvus_net
   tags: docker
   tasks:
   - name: milvus-rootcoord
