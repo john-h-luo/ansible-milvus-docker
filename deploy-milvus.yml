@@ -31,7 +31,6 @@
       networks:
         - name: "{{ network }}"
           ipv4_address: "10.0.2.8"
-    register: etcd
 
   - name: milvus-minio
     docker_container: 
@@ -52,7 +51,6 @@
           ipv4_address: "10.0.2.10"
       ports:
         - 9000
-    register: minio
 
   - name: milvus-pulsar
     docker_container: 
@@ -65,7 +63,23 @@
           ipv4_address: "10.0.2.11"
       ports:
         - "6650"
-    register: pulsar
+
+  - name: milvus-proxy
+    docker_container: 
+      name: milvus-proxy
+      image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
+      command: "milvus run proxy"
+      env:
+        ETCD_ENDPOINTS: "10.0.2.8:2379"
+        MINIO_ADDRESS: "10.0.2.10:9000"
+        PULSAR_ADDRESS: "pulsar://10.0.2.11:6650"
+      network_mode: "{{ network }}"
+      networks:
+        - name: "{{ network }}"
+          ipv4_address: "10.0.2.35"
+      ports:
+        - "19530"
+        - "9091"
 
   - name: milvus-querycoord
     docker_container: 
@@ -75,7 +89,7 @@
       env:
         ETCD_ENDPOINTS: "10.0.2.8:2379"
         MINIO_ADDRESS: "10.0.2.10:9000"
-        PULSAR_ADDRESS: pulsar://10.0.2.11:6650
+        PULSAR_ADDRESS: "pulsar://10.0.2.11:6650"
         ROOT_COORD_ADDRESS: "10.0.2.29:53100"
         DATA_COORD_ADDRESS: "10.0.2.28:13333"
         INDEX_COORD_ADDRESS: "10.0.2.30:31000"
@@ -87,7 +101,6 @@
       ports:
         - "19531"
         - "9091"  
-    register: querycoord
 
 - name: Create all kinds of milvus coord & node
   hosts: swarm-worker-01
@@ -96,14 +109,8 @@
   vars:
     network: milvus_net
     # etcd: "{{ hostvars['swarm-manager']['etcd']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}:2379"
-    # minio: "{{ hostvars['swarm-manager']['minio']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}:9000"
-    # pulsar: "{{ hostvars['swarm-manager']['pulsar']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}:6650"
   tags: docker
   tasks:
-  # - name: debugging
-  #   debug:
-  #     # var: rootcoord.container.NetworkSettings.Networks.milvus_net.IPAddress
-  #     # msg: "Print this {{etcd}} {{ hostvars['swarm-manager']['etcd']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}"
   - name: milvus-datacoord
     docker_container: 
       name: milvus-datacoord
@@ -112,7 +119,7 @@
       env:
         ETCD_ENDPOINTS: "10.0.2.8:2379"
         MINIO_ADDRESS: "10.0.2.10:9000"
-        PULSAR_ADDRESS: pulsar://10.0.2.11:6650
+        PULSAR_ADDRESS: "pulsar://10.0.2.11:6650"
         ROOT_COORD_ADDRESS: "10.0.2.29:53100"
         DATA_COORD_ADDRESS: "10.0.2.28:13333"
         INDEX_COORD_ADDRESS: "10.0.2.30:31000"
@@ -124,7 +131,6 @@
       ports:
         - "13333"
         - "9091"   
-    register: datacoord  
  
   - name: milvus-rootcoord
     docker_container: 
@@ -134,7 +140,7 @@
       env:
         ETCD_ENDPOINTS: "10.0.2.8:2379"
         MINIO_ADDRESS: "10.0.2.10:9000"
-        PULSAR_ADDRESS: pulsar://10.0.2.11:6650
+        PULSAR_ADDRESS: "pulsar://10.0.2.11:6650"
         ROOT_COORD_ADDRESS: "10.0.2.29:53100"
         DATA_COORD_ADDRESS: "10.0.2.28:13333"
         INDEX_COORD_ADDRESS: "10.0.2.30:31000"
@@ -146,8 +152,7 @@
       ports:
         - "53100"
         - "9091"
-    register: rootcoord      
-
+    
   - name: milvus-indexcoord
     docker_container: 
       name: milvus-indexcoord
@@ -156,7 +161,7 @@
       env:
         ETCD_ENDPOINTS: "10.0.2.8:2379"
         MINIO_ADDRESS: "10.0.2.10:9000"
-        PULSAR_ADDRESS: pulsar://10.0.2.11:6650
+        PULSAR_ADDRESS: "pulsar://10.0.2.11:6650"
         ROOT_COORD_ADDRESS: "10.0.2.29:53100"
         DATA_COORD_ADDRESS: "10.0.2.28:13333"
         INDEX_COORD_ADDRESS: "10.0.2.30:31000"
@@ -168,8 +173,7 @@
       ports:
         - "31000"
         - "9091"  
-    register: indexcoord
-
+    
   - name: milvus-querynode
     docker_container: 
       name: milvus-querynode
@@ -178,7 +182,8 @@
       env:
         ETCD_ENDPOINTS: "10.0.2.8:2379"
         MINIO_ADDRESS: "10.0.2.10:9000"
-        PULSAR_ADDRESS: pulsar://10.0.2.11:6650    
+        PULSAR_ADDRESS: "pulsar://10.0.2.11:6650"
+        QUERY_COORD_ADDRESS: "10.0.2.31:19531"         
       network_mode: "{{ network }}"
       networks:
         - name: "{{ network }}"
@@ -186,107 +191,39 @@
       ports:
         - "21123"
         - "9091"
-    register: querynode
 
+  - name: milvus-datanode
+    docker_container: 
+      name: milvus-datanode
+      image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
+      command: "milvus run datanode"
+      env:
+        ETCD_ENDPOINTS: "10.0.2.8:2379"
+        MINIO_ADDRESS: "10.0.2.10:9000"
+        PULSAR_ADDRESS: "pulsar://10.0.2.11:6650" 
+        DATA_COORD_ADDRESS: "10.0.2.28:13333"       
+      network_mode: "{{ network }}"
+      networks:
+        - name: "{{ network }}"
+          ipv4_address: "10.0.2.33"
+      ports:
+        - "21124"
+        - "9091"
 
-  # Create milvus-querynode
-  # --
-  # 
-#   - name: Create milvus-querynode
-#     hosts: 34.92.97.227
-#     community.docker.docker_container:
-#       name: milvus-querynode
-#       image: "docker.io/portainer/portainer-ce"
-#       ports:
-#         - "9443:9443"
-#       restart_policy: always
-
-#   # Deploy milvus-querycoord
-#   # --
-#   #   
-#   - name: Deploy milvus-querycoord
-#     hosts: 34.92.97.227
-#     community.docker.docker_container:
-#       name: milvus-querycoord
-#       image: "docker.io/portainer/portainer-ce"
-#       ports:
-#         - "9443:9443"
-#       restart_policy: always
-
-# - hosts: 127.0.0.1
-# - become: yes
-#   become_user: "{{ lookup("env","jayhwa_lor") }}"
-#   tasks:
-
-#   # Deploy milvus-rootcoord
-#   # --
-#   #   
-#   - name: Deploy milvus-rootcoord
-#     hosts: 34.92.97.227
-#     community.docker.docker_container:
-#       name: milvus-rootcoord
-#       image: "docker.io/portainer/portainer-ce"
-#       ports:
-#         - "9443:9443"
-#       restart_policy: always
-
-#   # Deploy milvus-proxy
-#   # --
-#   #   
-#   - name: Deploy milvus-proxy
-#     hosts: 34.92.97.227
-#     community.docker.docker_container:
-#       name: milvus-proxy
-#       image: "docker.io/portainer/portainer-ce"
-#       network_mode: host
-#       ports:
-#         - "9443:9443"
-#       restart_policy: always
-
-#   # Deploy milvus-indexcoord
-#   # --
-#   #   
-#   - name: Deploy milvus-indexcoord
-#     hosts: 34.92.97.227
-#     community.docker.docker_container:
-#       name: milvus-indexcoord
-#       image: "docker.io/portainer/portainer-ce"
-#       ports:
-#         - "9443:9443"
-#       restart_policy: always
-  
-#   # Deploy milvus-indexnode
-#   # --
-#   #   
-#   - name: Deploy milvus-indexnode
-#     hosts: 34.92.97.227
-#     community.docker.docker_container:
-#       name: milvus-indexnode
-#       image: "docker.io/portainer/portainer-ce"
-#       ports:
-#         - "9443:9443"
-#       restart_policy: always
-  
-#   # Deploy milvus-datacoord
-#   # --
-#   #   
-#   - name: Deploy milvus-datacoord
-#     hosts: 34.92.97.227
-#     community.docker.docker_container:
-#       name: milvus-datacoord
-#       image: "docker.io/portainer/portainer-ce"
-#       ports:
-#         - "9443:9443"
-#       restart_policy: always
-  
-#   # Deploy milvus-datanode
-#   # --
-#   #   
-#   - name: Deploy milvus-datanode
-#     hosts: 34.92.97.227
-#     community.docker.docker_container:
-#       name: milvus-datanode
-#       image: "docker.io/portainer/portainer-ce"
-#       ports:
-#         - "9443:9443"
-#       restart_policy: always
+  - name: milvus-indexnode
+    docker_container: 
+      name: milvus-indexnode
+      image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
+      command: "milvus run indexnode"
+      env:
+        ETCD_ENDPOINTS: "10.0.2.8:2379"
+        MINIO_ADDRESS: "10.0.2.10:9000"
+        PULSAR_ADDRESS: "pulsar://10.0.2.11:6650"
+        INDEX_COORD_ADDRESS: "10.0.2.30:31000"
+      network_mode: "{{ network }}"
+      networks:
+        - name: "{{ network }}"
+          ipv4_address: "10.0.2.34"
+      ports:
+        - "21121"
+        - "9091"
