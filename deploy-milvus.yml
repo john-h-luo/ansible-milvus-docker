@@ -13,8 +13,6 @@
   become_user: root
   vars:
     network: milvus_net
-    host_01: swarm-manager
-    host_02: swarm-worker-01
   tags: docker
   tasks:
   - name: Create milvus-etcd
@@ -57,16 +55,15 @@
 #       ports:
 #         - "6650"
 
-# - name: Create all kinds of milvus coord & node
-#   hosts: swarm-worker-01
-#   become: yes
-#   become_user: root
-#   vars:
-#     network: milvus_net
-#   tags: docker
-#   tasks:
+- name: Create all kinds of milvus coord & node
+  hosts: swarm-worker-01
+  become: yes
+  become_user: root
+  vars:
+    network: milvus_net
+  tags: docker
+  tasks:
   - name: milvus-rootcoord
-    hosts: "{{host_02}}"
     docker_container: 
       name: milvus-rootcoord
       image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
