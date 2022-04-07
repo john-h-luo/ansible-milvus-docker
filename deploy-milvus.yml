@@ -19,7 +19,7 @@
     docker_container: 
       name: milvus-etcd
       image: quay.io/coreos/etcd:latest
-      command: 'etcd -listen-peer-urls=http://127.0.0.1:2380 -advertise-client-urls=http://127.0.0.1:2379 -listen-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001 -initial-advertise-peer-urls=http://127.0.0.1:2380 --listen-metrics-urls=http://127.0.0.1:2381 --initial-cluster default=http://127.0.0.1:2380'
+      command: "etcd -listen-peer-urls=http://127.0.0.1:2380 -advertise-client-urls=http://127.0.0.1:2379 -listen-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001 -initial-advertise-peer-urls=http://127.0.0.1:2380 --listen-metrics-urls=http://127.0.0.1:2381 --initial-cluster default=http://127.0.0.1:2380"
       healthcheck:
         test: ["CMD", "wget", "-q", "--tries=1", "--spider", "http://127.0.0.1:2381/health"]
         interval: 30s
@@ -37,7 +37,7 @@
       env:
         MINIO_ACCESS_KEY: minioadmin
         MINIO_SECRET_KEY: minioadmin
-      command: 'minio server /minio_data'
+      command: "minio server /minio_data"
       healthcheck:
         test: ["CMD", "curl", "-f", "http://127.0.0.1:9000/minio/health/live"]
         interval: 30s
@@ -52,7 +52,7 @@
     docker_container: 
       name: milvus-pulsar
       image: apachepulsar/pulsar:latest
-      command: 'bin/pulsar standalone'
+      command: "bin/pulsar standalone"
       network_mode: "{{ network }}"
       ports:
         - "6650"
@@ -64,6 +64,7 @@
   become_user: root
   vars:
     network: milvus_net
+    etcd: hostvars["swarm-manager"]["etcd"]["container"]["NetworkSettings"]["Networks"]["milvus_net"]["IPAddress"]
   tags: docker
   tasks:
   - name: milvus-rootcoord
@@ -72,7 +73,7 @@
       image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
       command: ["milvus", "run", "rootcoord"]
       env:
-        ETCD_ENDPOINTS: hostvars["swarm-manager"]['etcd']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress']:2379
+        ETCD_ENDPOINTS: "etcd:2379"
         # MINIO_ADDRESS: hostvars["swarm-manager"]["minio"]["container"]["NetworkSettings"]["Networks"]["milvus_net"]["IPAddress"]:9000
         # PULSAR_ADDRESS: pulsar://hostvars["swarm-manager"]["pulsar"]["container"]["NetworkSettings"]["Networks"]["milvus_net"]["IPAddress"]:6650
         # ROOT_COORD_ADDRESS: "127.0.0.1:53100"
@@ -84,7 +85,7 @@
   - name: debugging
     debug:
       # var: rootcoord.container.NetworkSettings.Networks.milvus_net.IPAddress
-      var: hostvars["swarm-manager"]['etcd']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress']
+      var: hostvars["swarm-manager"]["etcd"]["container"]["NetworkSettings"]["Networks"]["milvus_net"]["IPAddress"]
 
 #   - name: milvus-datacoord
 #     docker_container: 
@@ -121,7 +122,7 @@
 #     docker_container: 
 #       name: milvus-querynode
 #       image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
-#       command: 'milvus run querycoord'
+#       command: "milvus run querycoord"
 #       env:
 #         ETCD_ENDPOINTS: "10.0.1.7:2379"
 #         MINIO_ADDRESS: "10.0.1.8:9000"
@@ -136,7 +137,7 @@
 #     docker_container: 
 #       name: milvus-querynode
 #       image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
-#       command: 'milvus run querynode'
+#       command: "milvus run querynode"
 #       env:
 #         ETCD_ENDPOINTS: "10.0.1.7:2379"
 #         MINIO_ADDRESS: "10.0.1.8:9000"
@@ -173,7 +174,7 @@
 
 # - hosts: 127.0.0.1
 # - become: yes
-#   become_user: "{{ lookup('env','jayhwa_lor') }}"
+#   become_user: "{{ lookup("env","jayhwa_lor") }}"
 #   tasks:
 
 #   # Deploy milvus-rootcoord
