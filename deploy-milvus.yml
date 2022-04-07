@@ -65,8 +65,8 @@
   vars:
     network: milvus_net
     etcd: "{{ hostvars['swarm-manager']['etcd']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}:2379"
-    minio: "{{ hostvars['swarm-manager']['etcd']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}:9000"
-    pulsar: "{{ hostvars['swarm-manager']['etcd']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}:6650"
+    minio: "{{ hostvars['swarm-manager']['minio']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}:9000"
+    pulsar: "{{ hostvars['swarm-manager']['pulsar']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}:6650"
   tags: docker
   tasks:
   - name: debugging
@@ -88,7 +88,6 @@
       ports:
         - "53100"
         - "9091"
-      
     register: rootcoord
 
   # - name: debugging
