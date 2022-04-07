@@ -95,17 +95,17 @@
         INDEX_COORD_ADDRESS: localhost:31000
       network_mode: milvus-network
 
-  # - name: milvus-querycoord
-  #   docker_container: 
-  #     name: milvus-querynode
-  #     image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
-  #     command: 'milvus run querycoord'
-  #     env:
-  #       ETCD_ENDPOINTS: "10.0.1.7:2379"
-  #       MINIO_ADDRESS: "10.0.1.8:9000"
-  #       PULSAR_ADDRESS: pulsar://10.0.1.9:6650
-  #       QUERY_COORD_ADDRESS: 10.0.1.10:19531
-  #     network_mode: milvus-network
+  - name: milvus-querycoord
+    docker_container: 
+      name: milvus-querynode
+      image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
+      command: 'milvus run querycoord'
+      env:
+        ETCD_ENDPOINTS: "10.0.1.7:2379"
+        MINIO_ADDRESS: "10.0.1.8:9000"
+        PULSAR_ADDRESS: pulsar://10.0.1.9:6650
+        QUERY_COORD_ADDRESS: localhost:19531
+      network_mode: milvus-network
 
   # - name: milvus-querynode
   #   docker_container: 
