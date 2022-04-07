@@ -88,7 +88,7 @@
         QUERY_COORD_ADDRESS: "10.0.2.31:19531"
       network_mode: "{{ network }}"
       networks:
-        - name: datacoord
+        - name: "{{ network }}"
           ipv4_address: "10.0.2.28"
       ports:
         - "13333"
@@ -110,7 +110,7 @@
         QUERY_COORD_ADDRESS: "10.0.2.31:19531"
       network_mode: "{{ network }}"
       networks:
-        - name: rootcoord
+        - name: "{{ network }}"
           ipv4_address: "10.0.2.29"
       ports:
         - "53100"
@@ -132,7 +132,7 @@
         QUERY_COORD_ADDRESS: "10.0.2.31:19531"
       network_mode: "{{ network }}"
       networks:
-        - name: indexcoord
+        - name: "{{ network }}"
           ipv4_address: "10.0.2.30"
       ports:
         - "31000"
@@ -154,7 +154,7 @@
         QUERY_COORD_ADDRESS: "10.0.2.31:19531"
       network_mode: "{{ network }}"
       networks:
-        - name: querycoord
+        - name: "{{ network }}"
           ipv4_address: "10.0.2.31"
       ports:
         - "19531"
@@ -172,7 +172,7 @@
         PULSAR_ADDRESS: "{{pulsar}}"      
       network_mode: "{{ network }}"
       networks:
-        - name: querynode
+        - name: "{{ network }}"
           ipv4_address: "10.0.2.32"
       ports:
         - "21123"
