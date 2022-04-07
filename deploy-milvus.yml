@@ -8,6 +8,7 @@
   #     - deploy-etcd
 
 - name: Create milvus-etcd, minio, pulsar
+  hosts: "{{ host_01 }}"
   become: yes
   become_user: root
   var:
