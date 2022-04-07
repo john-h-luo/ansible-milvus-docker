@@ -13,7 +13,7 @@
   tags: docker
   tasks:
   - name: Create container 
-    community.docker.docker_compose: 
+    docker_container: 
       name: etcd
       image: docker.io/bitnami/etcd:latest
       command: 'etcd -listen-peer-urls=http://10.170.0.5:2380 -advertise-client-urls=http://10.170.0.5:2379 -listen-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001 -initial-advertise-peer-urls=http://10.170.0.5:2380 --listen-metrics-urls=http://10.170.0.5:2381 --initial-cluster default=http://10.170.0.5:2380'
