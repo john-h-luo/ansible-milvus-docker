@@ -84,7 +84,7 @@
   - name: debugging
     debug:
       # var: rootcoord.container.NetworkSettings.Networks.milvus_net.IPAddress
-      var: "{{hostvars[swarm-manager][etcd][container][NetworkSettings][Networks][milvus_net][IPAddress]}}"
+      var: "{{hostvars['swarm-manager']['etcd']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress']}}"
 
 #   - name: milvus-datacoord
 #     docker_container: 
