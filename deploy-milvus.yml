@@ -24,7 +24,7 @@
         timeout: 20s
         retries: 3
       ports:
-        - 2379:2379
+        - 2379
       network_mode: milvus-network
 
   - name: milvus-minio
@@ -42,7 +42,7 @@
         retries: 3
       network_mode: milvus-network
       ports:
-        - 9000:9000
+        - 9000
       restart_policy: always
 
 # - name: Create milvus-minio
