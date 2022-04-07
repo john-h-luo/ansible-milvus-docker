@@ -76,7 +76,7 @@
       ports:
         - "53100"
         - "9091"
-    register: rootcoord.container.NetworkSettings.Networks.milvus-network.IPAddress
+    register: rootcoord.container
 
   - name: debugging
     debug:
