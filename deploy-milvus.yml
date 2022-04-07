@@ -70,6 +70,9 @@
         PULSAR_ADDRESS: pulsar://10.0.1.9:6650
         ROOT_COORD_ADDRESS: localhost:53100
       network_mode: milvus-network
+      ports:
+        - "53100"
+        - "9091"     
 
   - name: milvus-datacoord
     docker_container: 
@@ -82,6 +85,9 @@
         PULSAR_ADDRESS: pulsar://10.0.1.9:6650
         DATA_COORD_ADDRESS: localhost:53100
       network_mode: milvus-network
+      ports:
+        - "13333"
+        - "9091"           
 
   - name: milvus-indexcoord
     docker_container: 
@@ -94,6 +100,9 @@
         PULSAR_ADDRESS: pulsar://10.0.1.9:6650
         INDEX_COORD_ADDRESS: localhost:31000
       network_mode: milvus-network
+      ports:
+        - "31000"
+        - "9091"  
 
   - name: milvus-querycoord
     docker_container: 
@@ -106,6 +115,9 @@
         PULSAR_ADDRESS: pulsar://10.0.1.9:6650
         QUERY_COORD_ADDRESS: localhost:19531
       network_mode: milvus-network
+      ports:
+        - "19531"
+        - "9091"  
 
   - name: milvus-querynode
     docker_container: 
@@ -117,6 +129,10 @@
         MINIO_ADDRESS: "10.0.1.8:9000"
         PULSAR_ADDRESS: pulsar://10.0.1.9:6650
       network_mode: milvus-network
+      ports:
+        - "21123"
+        - "9091"  
+
 
   # Create milvus-querynode
   # --
