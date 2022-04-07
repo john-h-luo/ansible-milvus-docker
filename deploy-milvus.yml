@@ -101,9 +101,9 @@
       image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
       command: ["milvus", "run", "datacoord"]
       env:
-        ETCD_ENDPOINTS: "{{etcd}}"
-        MINIO_ADDRESS: "{{minio}}"
-        PULSAR_ADDRESS: "{{pulsar}}"
+        ETCD_ENDPOINTS: "10.0.2.8:2379"
+        MINIO_ADDRESS: "10.0.2.10:9000"
+        PULSAR_ADDRESS: "10.0.2.11:6650"
         ROOT_COORD_ADDRESS: "10.0.2.29:53100"
         DATA_COORD_ADDRESS: "10.0.2.28:13333"
         INDEX_COORD_ADDRESS: "10.0.2.30:31000"
@@ -123,9 +123,9 @@
       image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
       command: ["milvus", "run", "rootcoord"]
       env:
-        ETCD_ENDPOINTS: "{{etcd}}"
-        MINIO_ADDRESS: "{{minio}}"
-        PULSAR_ADDRESS: "{{pulsar}}"
+        ETCD_ENDPOINTS: "10.0.2.8:2379"
+        MINIO_ADDRESS: "10.0.2.10:9000"
+        PULSAR_ADDRESS: "10.0.2.11:6650"
         ROOT_COORD_ADDRESS: "10.0.2.29:53100"
         DATA_COORD_ADDRESS: "10.0.2.28:13333"
         INDEX_COORD_ADDRESS: "10.0.2.30:31000"
@@ -145,9 +145,9 @@
       image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
       command: ["milvus", "run", "indexcoord"]
       env:
-        ETCD_ENDPOINTS: "{{etcd}}"
-        MINIO_ADDRESS: "{{minio}}"
-        PULSAR_ADDRESS: "{{pulsar}}"
+        ETCD_ENDPOINTS: "10.0.2.8:2379"
+        MINIO_ADDRESS: "10.0.2.10:9000"
+        PULSAR_ADDRESS: "10.0.2.11:6650"
         ROOT_COORD_ADDRESS: "10.0.2.29:53100"
         DATA_COORD_ADDRESS: "10.0.2.28:13333"
         INDEX_COORD_ADDRESS: "10.0.2.30:31000"
@@ -167,9 +167,9 @@
       image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
       command: "milvus run querynode"
       env:
-        ETCD_ENDPOINTS: "{{etcd}}"
-        MINIO_ADDRESS: "{{minio}}"
-        PULSAR_ADDRESS: "{{pulsar}}"      
+        ETCD_ENDPOINTS: "10.0.2.8:2379"
+        MINIO_ADDRESS: "10.0.2.10:9000"
+        PULSAR_ADDRESS: "10.0.2.11:6650"    
       network_mode: "{{ network }}"
       networks:
         - name: "{{ network }}"
