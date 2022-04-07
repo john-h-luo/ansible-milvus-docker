@@ -65,6 +65,8 @@
   vars:
     network: milvus_net
     etcd: "{{ hostvars['swarm-manager']['etcd']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}:2379"
+    minio: "{{ hostvars['swarm-manager']['etcd']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}:9000"
+    pulsar: "{{ hostvars['swarm-manager']['etcd']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}:6650"
   tags: docker
   tasks:
   - name: debugging
@@ -79,12 +81,14 @@
       command: ["milvus", "run", "rootcoord"]
       env:
         ETCD_ENDPOINTS: "{{etcd}}"
-        # MINIO_ADDRESS: {{ hostvars['swarm-manager']['etcd']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}:9000
-        # PULSAR_ADDRESS: pulsar://hostvars["swarm-manager"]["pulsar"]["container"]["NetworkSettings"]["Networks"]["milvus_net"]["IPAddress"]:6650
-        # ROOT_COORD_ADDRESS: "127.0.0.1:53100"
+        MINIO_ADDRESS: "{{minio}}"
+        PULSAR_ADDRESS: "{{pulsar}}"
+        ROOT_COORD_ADDRESS: "127.0.0.1:53100"
+      network_mode: "{{ network }}"
       ports:
         - "53100"
         - "9091"
+      
     register: rootcoord
 
   # - name: debugging
@@ -103,7 +107,7 @@
 #         PULSAR_ADDRESS: pulsar://10.0.1.9:6650
 #         ROOT_COORD_ADDRESS: 10.0.1.31:53100
 #         DATA_COORD_ADDRESS: localhost:13333
-#       network_mode: {{ network }}
+#       network_mode: "{{ network }}"
 #       ports:
 #         - "13333"
 #         - "9091"           
@@ -118,7 +122,7 @@
 #         MINIO_ADDRESS: "10.0.1.8:9000"
 #         PULSAR_ADDRESS: pulsar://10.0.1.9:6650
 #         INDEX_COORD_ADDRESS: localhost:31000
-#       network_mode: {{ network }}
+#       network_mode: "{{ network }}"
 #       ports:
 #         - "31000"
 #         - "9091"  
@@ -133,7 +137,7 @@
 #         MINIO_ADDRESS: "10.0.1.8:9000"
 #         PULSAR_ADDRESS: pulsar://10.0.1.9:6650
 #         QUERY_COORD_ADDRESS: localhost:19531
-#       network_mode: {{ network }}
+#       network_mode: "{{ network }}"
 #       ports:
 #         - "19531"
 #         - "9091"  
@@ -147,7 +151,7 @@
 #         ETCD_ENDPOINTS: "10.0.1.7:2379"
 #         MINIO_ADDRESS: "10.0.1.8:9000"
 #         PULSAR_ADDRESS: pulsar://10.0.1.9:6650
-#       network_mode: {{ network }}
+#       network_mode: "{{ network }}"
 #       ports:
 #         - "21123"
 #         - "9091"  
