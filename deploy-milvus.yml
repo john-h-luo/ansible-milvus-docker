@@ -70,7 +70,7 @@
   - name: debugging
     debug:
       # var: rootcoord.container.NetworkSettings.Networks.milvus_net.IPAddress
-      msg: "{{ etcd }}"
+      msg: {{ "etcd" }}
 
   - name: milvus-rootcoord
     docker_container: 
