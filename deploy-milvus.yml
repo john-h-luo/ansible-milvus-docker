@@ -67,6 +67,11 @@
     etcd: hostvars["swarm-manager"]["etcd"]["container"]["NetworkSettings"]["Networks"]["milvus_net"]["IPAddress"]
   tags: docker
   tasks:
+  - name: debugging
+    debug:
+      # var: rootcoord.container.NetworkSettings.Networks.milvus_net.IPAddress
+      var: "{{etcd}}"
+      
   - name: milvus-rootcoord
     docker_container: 
       name: milvus-rootcoord
@@ -82,10 +87,10 @@
         - "9091"
     register: rootcoord
 
-  - name: debugging
-    debug:
-      # var: rootcoord.container.NetworkSettings.Networks.milvus_net.IPAddress
-      var: "{{etcd}}"
+  # - name: debugging
+  #   debug:
+  #     # var: rootcoord.container.NetworkSettings.Networks.milvus_net.IPAddress
+  #     var: "{{etcd}}"
 
 #   - name: milvus-datacoord
 #     docker_container: 
