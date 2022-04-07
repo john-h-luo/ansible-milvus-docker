@@ -177,7 +177,7 @@
       ports:
         - "21123"
         - "9091"
-      register: querynode
+    register: querynode
 
 
   # Create milvus-querynode
