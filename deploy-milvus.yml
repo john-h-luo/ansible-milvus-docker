@@ -11,10 +11,10 @@
   hosts: swarm-manager
   become: yes
   become_user: root
-  # var:
-  #   network: milvus_net
-  #   host_01: swarm-manager
-  #   host_02: swarm-worker-01
+  vars:
+    network: milvus_net
+    host_01: swarm-manager
+    host_02: swarm-worker-01
   tags: docker
   tasks:
   - name: Create milvus-etcd
@@ -61,7 +61,7 @@
   hosts: swarm-worker-01
   become: yes
   become_user: root
-  var:
+  vars:
     network: milvus_net
   tags: docker
   tasks:
