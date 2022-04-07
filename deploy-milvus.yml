@@ -82,7 +82,7 @@
         ETCD_ENDPOINTS: "{{etcd}}"
         MINIO_ADDRESS: "{{minio}}"
         PULSAR_ADDRESS: "{{pulsar}}"
-        ROOT_COORD_ADDRESS: "{{['rootcoord']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress']}}:53100"
+        # ROOT_COORD_ADDRESS: "{{['rootcoord']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress']}}:53100"
         DATA_COORD_ADDRESS: 127.0.0.1:13333
       network_mode: "{{ network }}"
       ports:
