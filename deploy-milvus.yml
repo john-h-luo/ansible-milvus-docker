@@ -66,7 +66,7 @@
       env:
         ETCD_ENDPOINTS: "10.0.2.8:2379"
         MINIO_ADDRESS: "10.0.2.10:9000"
-        PULSAR_ADDRESS: "pulsar//10.0.2.11:6650"
+        PULSAR_ADDRESS: pulsar//10.0.2.11:6650
         ROOT_COORD_ADDRESS: "10.0.2.29:53100"
         DATA_COORD_ADDRESS: "10.0.2.28:13333"
         INDEX_COORD_ADDRESS: "10.0.2.30:31000"
@@ -86,9 +86,9 @@
   become_user: root
   vars:
     network: milvus_net
-    etcd: "{{ hostvars['swarm-manager']['etcd']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}:2379"
-    minio: "{{ hostvars['swarm-manager']['minio']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}:9000"
-    pulsar: "{{ hostvars['swarm-manager']['pulsar']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}:6650"
+    # etcd: "{{ hostvars['swarm-manager']['etcd']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}:2379"
+    # minio: "{{ hostvars['swarm-manager']['minio']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}:9000"
+    # pulsar: "{{ hostvars['swarm-manager']['pulsar']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}:6650"
   tags: docker
   tasks:
   # - name: debugging
@@ -103,7 +103,7 @@
       env:
         ETCD_ENDPOINTS: "10.0.2.8:2379"
         MINIO_ADDRESS: "10.0.2.10:9000"
-        PULSAR_ADDRESS: "pulsar//10.0.2.11:6650"
+        PULSAR_ADDRESS: pulsar//10.0.2.11:6650
         ROOT_COORD_ADDRESS: "10.0.2.29:53100"
         DATA_COORD_ADDRESS: "10.0.2.28:13333"
         INDEX_COORD_ADDRESS: "10.0.2.30:31000"
@@ -125,7 +125,7 @@
       env:
         ETCD_ENDPOINTS: "10.0.2.8:2379"
         MINIO_ADDRESS: "10.0.2.10:9000"
-        PULSAR_ADDRESS: "pulsar//10.0.2.11:6650"
+        PULSAR_ADDRESS: pulsar//10.0.2.11:6650
         ROOT_COORD_ADDRESS: "10.0.2.29:53100"
         DATA_COORD_ADDRESS: "10.0.2.28:13333"
         INDEX_COORD_ADDRESS: "10.0.2.30:31000"
@@ -147,7 +147,7 @@
       env:
         ETCD_ENDPOINTS: "10.0.2.8:2379"
         MINIO_ADDRESS: "10.0.2.10:9000"
-        PULSAR_ADDRESS: "pulsar//10.0.2.11:6650"
+        PULSAR_ADDRESS: pulsar//10.0.2.11:6650
         ROOT_COORD_ADDRESS: "10.0.2.29:53100"
         DATA_COORD_ADDRESS: "10.0.2.28:13333"
         INDEX_COORD_ADDRESS: "10.0.2.30:31000"
@@ -169,7 +169,7 @@
       env:
         ETCD_ENDPOINTS: "10.0.2.8:2379"
         MINIO_ADDRESS: "10.0.2.10:9000"
-        PULSAR_ADDRESS: "pulsar//10.0.2.11:6650"    
+        PULSAR_ADDRESS: pulsar//10.0.2.11:6650    
       network_mode: "{{ network }}"
       networks:
         - name: "{{ network }}"
