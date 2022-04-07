@@ -55,34 +55,34 @@
 #       ports:
 #         - "6650"
 
-# - name: Create all kinds of milvus coordinator and node
-#   hosts: swarm-worker-01
-#   become: yes
-#   become_user: root
-#   tags: docker
-#   tasks:
-#   - name: milvus-rootcoord
-#     docker_container: 
-#       name: milvus-rootcoord
-#       image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
-#       command: ["milvus", "run", "rootcoord"]
-#       env:
-#         ETCD_ENDPOINTS: "10.0.1.7:2379"
-#         MINIO_ADDRESS: "10.0.1.8:9000"
-#         PULSAR_ADDRESS: pulsar://10.0.1.9:6650
-#         ROOT_COORD_ADDRESS: 10.0.1.101:53100
-#       network_mode: {{ network }}
-#       # networks:
-#       #   name: "rootcoord"
-#       #   ipv4_address: "10.0.1.101"
-#       ports:
-#         - "53100"
-#         - "9091"
-#     register: rootcoord
+- name: Create all kinds of milvus coordinator and node
+  hosts: swarm-worker-01
+  become: yes
+  become_user: root
+  tags: docker
+  tasks:
+  - name: milvus-rootcoord
+    docker_container: 
+      name: milvus-rootcoord
+      image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
+      command: ["milvus", "run", "rootcoord"]
+      env:
+        ETCD_ENDPOINTS: "10.0.1.7:2379"
+        MINIO_ADDRESS: "10.0.1.8:9000"
+        PULSAR_ADDRESS: pulsar://10.0.1.9:6650
+        ROOT_COORD_ADDRESS: 10.0.1.101:53100
+      network_mode: "{{ network }}"
+      # networks:
+      #   name: "rootcoord"
+      #   ipv4_address: "10.0.1.101"
+      ports:
+        - "53100"
+        - "9091"
+    register: rootcoord
 
-#   - name: debugging
-#     debug:
-#       var: rootcoord.container.NetworkSettings.container.Networks.milvus-network
+  - name: debugging
+    debug:
+      var: rootcoord.container.NetworkSettings.container.Networks.milvus_net
 
 #   - name: milvus-datacoord
 #     docker_container: 
