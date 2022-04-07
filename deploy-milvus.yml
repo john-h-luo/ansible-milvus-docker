@@ -58,6 +58,28 @@
         - "6650"
     register: pulsar
 
+  - name: milvus-querycoord
+    docker_container: 
+      name: milvus-querynode
+      image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
+      command: "milvus run querycoord"
+      env:
+        ETCD_ENDPOINTS: "{{etcd}}"
+        MINIO_ADDRESS: "{{minio}}"
+        PULSAR_ADDRESS: "{{pulsar}}"
+        ROOT_COORD_ADDRESS: "10.0.2.29:53100"
+        DATA_COORD_ADDRESS: "10.0.2.28:13333"
+        INDEX_COORD_ADDRESS: "10.0.2.30:31000"
+        QUERY_COORD_ADDRESS: "10.0.2.31:19531"
+      network_mode: "{{ network }}"
+      networks:
+        - name: "{{ network }}"
+          ipv4_address: "10.0.2.31"
+      ports:
+        - "19531"
+        - "9091"  
+    register: querycoord
+
 - name: Create all kinds of milvus coord & node
   hosts: swarm-worker-01
   become: yes
@@ -138,28 +160,6 @@
         - "31000"
         - "9091"  
     register: indexcoord
-
-  - name: milvus-querycoord
-    docker_container: 
-      name: milvus-querynode
-      image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
-      command: "milvus run querycoord"
-      env:
-        ETCD_ENDPOINTS: "{{etcd}}"
-        MINIO_ADDRESS: "{{minio}}"
-        PULSAR_ADDRESS: "{{pulsar}}"
-        ROOT_COORD_ADDRESS: "10.0.2.29:53100"
-        DATA_COORD_ADDRESS: "10.0.2.28:13333"
-        INDEX_COORD_ADDRESS: "10.0.2.30:31000"
-        QUERY_COORD_ADDRESS: "10.0.2.31:19531"
-      network_mode: "{{ network }}"
-      networks:
-        - name: "{{ network }}"
-          ipv4_address: "10.0.2.31"
-      ports:
-        - "19531"
-        - "9091"  
-    register: querycoord
 
   - name: milvus-querynode
     docker_container: 
