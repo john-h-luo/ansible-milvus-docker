@@ -76,11 +76,11 @@
       ports:
         - "53100"
         - "9091"
-    register: rootcoord.container.NetworkSettings
+    register: rootcoord
 
   - name: debugging
     debug:
-      var: rootcoord
+      var: rootcoord.container.NetworkSettings
 
   - name: milvus-datacoord
     docker_container: 
