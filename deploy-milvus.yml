@@ -60,7 +60,7 @@
 
   - name: milvus-querycoord
     docker_container: 
-      name: milvus-querynode
+      name: milvus-querycoord
       image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
       command: "milvus run querycoord"
       env:
