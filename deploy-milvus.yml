@@ -73,8 +73,8 @@
       command: ["milvus", "run", "rootcoord"]
       env:
         ETCD_ENDPOINTS: hostvars["swarm-manager"]["etcd"]["container"]["NetworkSettings"]["Networks"]["milvus_net"]["IPAddress"]:2379
-        MINIO_ADDRESS: hostvars["swarm-manager"]["etcd"]["container"]["NetworkSettings"]["Networks"]["milvus_net"]["IPAddress"]:9000
-        PULSAR_ADDRESS: pulsar://hostvars["swarm-manager"]["etcd"]["container"]["NetworkSettings"]["Networks"]["milvus_net"]["IPAddress"]:6650
+        MINIO_ADDRESS: hostvars["swarm-manager"]["minio"]["container"]["NetworkSettings"]["Networks"]["milvus_net"]["IPAddress"]:9000
+        PULSAR_ADDRESS: pulsar://hostvars["swarm-manager"]["pulsar"]["container"]["NetworkSettings"]["Networks"]["milvus_net"]["IPAddress"]:6650
         ROOT_COORD_ADDRESS: "127.0.0.1:53100"
       ports:
         - "53100"
