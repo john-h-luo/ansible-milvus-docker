@@ -87,9 +87,9 @@
         INDEX_COORD_ADDRESS: "10.0.2.30:31000"
         QUERY_COORD_ADDRESS: "10.0.2.31:19531"
       network_mode: "{{ network }}"
-      network:
+      networks:
         name: datacoord
-        IPAddress: "10.0.2.28"
+        ipv4_address: "10.0.2.28"
       ports:
         - "13333"
         - "9091"   
@@ -109,9 +109,9 @@
         INDEX_COORD_ADDRESS: "10.0.2.30:31000"
         QUERY_COORD_ADDRESS: "10.0.2.31:19531"
       network_mode: "{{ network }}"
-      network:
+      networks:
         name: rootcoord
-        IPAddress: "10.0.2.29"
+        ipv4_address: "10.0.2.29"
       ports:
         - "53100"
         - "9091"
@@ -131,9 +131,9 @@
         INDEX_COORD_ADDRESS: "10.0.2.30:31000"
         QUERY_COORD_ADDRESS: "10.0.2.31:19531"
       network_mode: "{{ network }}"
-      network:
+      networks:
         name: indexcoord
-        IPAddress: "10.0.2.30"
+        ipv4_address: "10.0.2.30"
       ports:
         - "31000"
         - "9091"  
@@ -153,9 +153,9 @@
         INDEX_COORD_ADDRESS: "10.0.2.30:31000"
         QUERY_COORD_ADDRESS: "10.0.2.31:19531"
       network_mode: "{{ network }}"
-      network:
+      networks:
         name: querycoord
-        IPAddress: "10.0.2.31"
+        ipv4_address: "10.0.2.31"
       ports:
         - "19531"
         - "9091"  
@@ -171,9 +171,9 @@
         MINIO_ADDRESS: "{{minio}}"
         PULSAR_ADDRESS: "{{pulsar}}"      
       network_mode: "{{ network }}"
-      network:
+      networks:
         name: querynode
-        IPAddress: "10.0.2.32"
+        ipv4_address: "10.0.2.32"
       ports:
         - "21123"
         - "9091"
