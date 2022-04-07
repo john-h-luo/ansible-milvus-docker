@@ -80,7 +80,7 @@
 
   - name: debugging
     debug:
-      var: rootcoord.container.NetworkSettings.Networks.milvus-network
+      var: rootcoord.container.NetworkSettings.Networks
 
   - name: milvus-datacoord
     docker_container: 
