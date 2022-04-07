@@ -53,6 +53,12 @@
       ports:
         - "6650"
 
+- name: Create milvus all kinds of coordinator and node
+  hosts: swarm-worker
+  become: yes
+  become_user: root
+  tags: docker
+  tasks:
   - name: milvus-querycoord
     docker_container: 
       name: milvus-querynode
@@ -62,7 +68,7 @@
         ETCD_ENDPOINTS: "10.0.1.7:2379"
         MINIO_ADDRESS: "10.0.1.8:9000"
         PULSAR_ADDRESS: pulsar://10.0.1.9:6650
-        QUERY_COORD_ADDRESS: localhost:19531
+        QUERY_COORD_ADDRESS: 10.0.1.10:19531
       network_mode: milvus-network
 
   - name: milvus-querynode
