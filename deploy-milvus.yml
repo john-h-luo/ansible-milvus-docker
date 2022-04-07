@@ -76,7 +76,7 @@
       ports:
         - "53100"
         - "9091"
-    register: rootcoord.container
+    register: rootcoord.container.NetworkSettings
 
   - name: debugging
     debug:
