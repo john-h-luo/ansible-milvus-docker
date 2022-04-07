@@ -8,13 +8,13 @@
   #     - deploy-etcd
 
 - name: Create milvus-etcd, minio, pulsar
-  hosts: "{{ host_01 }}"
+  hosts: swarm-manager
   become: yes
   become_user: root
-  var:
-    network: milvus_net
-    host_01: swarm-manager
-    host_02: swarm-worker-01
+  # var:
+  #   network: milvus_net
+  #   host_01: swarm-manager
+  #   host_02: swarm-worker-01
   tags: docker
   tasks:
   - name: Create milvus-etcd
