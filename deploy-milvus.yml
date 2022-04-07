@@ -84,7 +84,7 @@
 
   - name: debugging
     debug:
-      var: rootcoord
+      var: rootcoord.container.NetworkSettings
 
 #   - name: milvus-datacoord
 #     docker_container: 
