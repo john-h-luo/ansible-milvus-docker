@@ -73,23 +73,6 @@
   #   debug:
   #     # var: rootcoord.container.NetworkSettings.Networks.milvus_net.IPAddress
   #     # msg: "Print this {{etcd}} {{ hostvars['swarm-manager']['etcd']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}"
-  - name: milvus-rootcoord
-    docker_container: 
-      name: milvus-rootcoord
-      image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
-      command: ["milvus", "run", "rootcoord"]
-      env:
-        ETCD_ENDPOINTS: "{{etcd}}"
-        MINIO_ADDRESS: "{{minio}}"
-        PULSAR_ADDRESS: "{{pulsar}}"
-        ROOT_COORD_ADDRESS: "127.0.0.1:53100"
-      network_mode: "{{ network }}"
-      ports:
-        - "53100"
-        - "9091"
-    register: rootcoord
-
-
   - name: milvus-datacoord
     docker_container: 
       name: milvus-datacoord
@@ -105,7 +88,23 @@
       ports:
         - "13333"
         - "9091"   
-    register: datacoord        
+    register: datacoord  
+ 
+  - name: milvus-rootcoord
+    docker_container: 
+      name: milvus-rootcoord
+      image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
+      command: ["milvus", "run", "rootcoord"]
+      env:
+        ETCD_ENDPOINTS: "{{etcd}}"
+        MINIO_ADDRESS: "{{minio}}"
+        PULSAR_ADDRESS: "{{pulsar}}"
+        ROOT_COORD_ADDRESS: "127.0.0.1:53100"
+      network_mode: "{{ network }}"
+      ports:
+        - "53100"
+        - "9091"
+    register: rootcoord      
 
   - name: milvus-indexcoord
     docker_container: 
