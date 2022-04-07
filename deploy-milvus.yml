@@ -54,7 +54,7 @@
         - "6650"
 
 - name: Create milvus all kinds of coordinator and node
-  hosts: swarm-worker
+  hosts: swarm-workers
   become: yes
   become_user: root
   tags: docker
