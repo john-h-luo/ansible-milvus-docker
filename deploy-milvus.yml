@@ -70,12 +70,17 @@
         PULSAR_ADDRESS: pulsar://10.0.1.9:6650
         ROOT_COORD_ADDRESS: 10.0.1.101:53100
       network_mode: milvus-network
-      networks:
-        name: "rootcoord"
-        ipv4_address: "10.0.1.101"
+      # networks:
+      #   name: "rootcoord"
+      #   ipv4_address: "10.0.1.101"
       ports:
         - "53100"
-        - "9091"     
+        - "9091"
+      register: rootcoord
+
+  - name: debugging
+    debug:
+    var: rootcoord.container.NetworkSettings.IPAddress
 
   - name: milvus-datacoord
     docker_container: 
