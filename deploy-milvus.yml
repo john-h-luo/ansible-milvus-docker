@@ -84,7 +84,7 @@
         MINIO_ADDRESS: "10.0.1.8:9000"
         PULSAR_ADDRESS: pulsar://10.0.1.9:6650
         ROOT_COORD_ADDRESS: 10.0.1.31:53100
-        DATA_COORD_ADDRESS: localhost:53100
+        DATA_COORD_ADDRESS: localhost:13333
       network_mode: milvus-network
       ports:
         - "13333"
