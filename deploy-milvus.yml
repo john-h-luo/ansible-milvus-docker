@@ -24,7 +24,7 @@
         retries: 3
       ports:
         - 2379:2379
-      networks_mode: milvus-network
+      network_mode: milvus-network
 
 # - name: Create etcd service
 #   docker_container:
