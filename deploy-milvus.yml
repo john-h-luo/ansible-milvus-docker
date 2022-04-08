@@ -32,7 +32,7 @@
   #       - name: "{{ network }}"
   #         ipv4_address: "{{etcd_ip}}"
   - name: Create milvus-etcd
-    docker_service: 
+    docker_services: 
       project_name: milvus dependancies
       definition:
         milvus-etcd:
