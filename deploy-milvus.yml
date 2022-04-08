@@ -125,8 +125,6 @@
   hosts: swarm-worker-01
   become: yes
   become_user: root
-  vars:
-    network: milvus_net
   tags: docker
   tasks:
   - name: milvus-datacoord
