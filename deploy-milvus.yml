@@ -23,7 +23,7 @@
   #   network: milvus_net
   tags: docker
   tasks:
-    - deploy-network
+  - name: deploy-network
 
 
 
