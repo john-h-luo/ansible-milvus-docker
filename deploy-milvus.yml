@@ -27,8 +27,8 @@
         retries: 3
       env:
         ETCD_AUTO_COMPACTION_MODE: revision
-        ETCD_AUTO_COMPACTION_RETENTION: 1000
-        ETCD_QUOTA_BACKEND_BYTES: 4294967296
+        ETCD_AUTO_COMPACTION_RETENTION: "1000"
+        ETCD_QUOTA_BACKEND_BYTES: "4294967296"
       network_mode: "{{ network }}"
       ports:
         - 2379
