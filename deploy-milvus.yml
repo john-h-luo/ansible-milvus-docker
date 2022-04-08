@@ -48,7 +48,7 @@
               - 2379
             network_mode: "{{ network }}"
             networks:
-              IPAddress: "{{etcd_ip}}"
+              ipv4_address: "{{etcd_ip}}"
 
 #   - name: milvus-minio
 #     docker_container: 
