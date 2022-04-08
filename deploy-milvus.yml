@@ -48,7 +48,6 @@
               - 2379
             network_mode: "{{ network }}"
             networks:
-              aliases: "{{ network }}"
               IPAddress: "{{etcd_ip}}"
 
 #   - name: milvus-minio
