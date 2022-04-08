@@ -1,28 +1,30 @@
 ---
-# Create milvus-network
-- name: Create milvus-network
-  hosts:  swarm-managers
-  become: yes
-  become_user: root
-  roles:
-    - deploy-network
-
-# Create milvus-etcd
-- name: Create milvus-etcd
-  hosts:  swarm-manager
-  become: yes
-  become_user: root
-  roles:
-    - deploy-etcd
-
-# - name: Create milvus-etcd, minio, pulsar
-#   hosts: swarm-manager
+# # Create milvus-network
+# - name: Create milvus-network
+#   hosts:  swarm-managers
 #   become: yes
 #   become_user: root
-#   vars:
-#     network: milvus_net
-#   tags: docker
-#   tasks:
+#   roles:
+#     - deploy-network
+
+# # Create milvus-etcd
+# - name: Create milvus-etcd
+#   hosts:  swarm-manager
+#   become: yes
+#   become_user: root
+#   roles:
+#     - deploy-etcd
+
+- name: Create milvus-etcd, minio, pulsar, network
+  hosts: swarm-manager
+  become: yes
+  become_user: root
+  vars:
+    network: milvus_net
+  tags: docker
+  tasks:
+  roles:
+    - deploy-network
 
 
 
