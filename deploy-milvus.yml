@@ -42,9 +42,9 @@
       project_name: milvus dependancies
       definition:
         networks:
-          default:
-            external:
-              name: "{{network}}"
+          "{{network}}":
+            external: true
+          #     name: "{{network}}"
           # attachable: yes
           # ipam_config:
           # - subnet: "{{subnet}}"
