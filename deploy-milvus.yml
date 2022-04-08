@@ -66,19 +66,6 @@
             networks:
               - "{{ network }}"
 
-- name: Create milvus-etcd, minio, pulsar, network
-  hosts: swarm-worker-01
-  become: yes
-  become_user: root
-  tasks:
-  - name: Create all kinds of milvus coord and node
-    community.docker.docker_compose: 
-      project_name: milvus dependancies
-      definition:
-        networks:
-          milvus_net:
-            external: true
-        services:
           milvus-datacoord:
             image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
             command: "milvus run datacoord"
@@ -91,7 +78,8 @@
               INDEX_COORD_ADDRESS: milvus-indexcoord:31000
               QUERY_COORD_ADDRESS: milvus-querycoord:19531
             ports:
-              - 9000
+              - 13333
+              - 9091  
             networks:
                 - "{{ network }}"
 
