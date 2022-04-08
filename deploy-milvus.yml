@@ -42,7 +42,7 @@
       project_name: milvus dependancies
       definition:
         networks:
-          "{{network}}":
+          milvus_net:
             external: true
           #     name: "{{network}}"
           # attachable: yes
