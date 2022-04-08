@@ -26,9 +26,6 @@
         timeout: 20s
         retries: 3
       network_mode: "{{ network }}"
-      # networks:
-      #   - name: "{{ network }}"
-      #     ipv4_address: "{{etcd_ip}}"
       ports:
         - 2379
 
@@ -67,7 +64,7 @@
   - name: milvus-proxy
     docker_container: 
       name: milvus-proxy
-      image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
+      image: milvusdb/milvus:v2.0.1
       command: "milvus run proxy"
       env:
         ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
@@ -91,7 +88,7 @@
   - name: milvus-querycoord
     docker_container: 
       name: milvus-querycoord
-      image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
+      image: milvusdb/milvus:v2.0.1
       command: "milvus run querycoord"
       env:
         ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
@@ -121,7 +118,7 @@
   - name: milvus-datacoord
     docker_container: 
       name: milvus-datacoord
-      image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
+      image: milvusdb/milvus:v2.0.1
       command: ["milvus", "run", "datacoord"]
       env:
         ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
@@ -135,9 +132,6 @@
         DATA_NODE_ADDRESS: "{{DATA_NODE_ADDRESS}}"
         INDEX_NODE_ADDRESS: "{{INDEX_NODE_ADDRESS}}"
       network_mode: "{{ network }}"
-      # networks:
-      #   - name: "{{ network }}"
-      #     ipv4_address: "{{datacoord_ip}}"
       ports:
         - "13333"
         - "9091"   
@@ -145,19 +139,19 @@
   - name: milvus-rootcoord
     docker_container: 
       name: milvus-rootcoord
-      image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
+      image: milvusdb/milvus:v2.0.1
       command: ["milvus", "run", "rootcoord"]
       env:
         ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
         MINIO_ADDRESS: "{{MINIO_ADDRESS}}"
         PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"
-        QUERY_COORD_ADDRESS: "{{QUERY_COORD_ADDRESS}}"
-        DATA_COORD_ADDRESS: "{{DATA_COORD_ADDRESS}}"
-        ROOT_COORD_ADDRESS: "{{ROOT_COORD_ADDRESS}}"
-        INDEX_COORD_ADDRESS: "{{INDEX_COORD_ADDRESS}}"
-        QUERY_NODE_ADDRESS: "{{QUERY_NODE_ADDRESS}}"
-        DATA_NODE_ADDRESS: "{{DATA_NODE_ADDRESS}}"
-        INDEX_NODE_ADDRESS: "{{INDEX_NODE_ADDRESS}}"
+        # QUERY_COORD_ADDRESS: "{{QUERY_COORD_ADDRESS}}"
+        # DATA_COORD_ADDRESS: "{{DATA_COORD_ADDRESS}}"
+        # ROOT_COORD_ADDRESS: "{{ROOT_COORD_ADDRESS}}"
+        # INDEX_COORD_ADDRESS: "{{INDEX_COORD_ADDRESS}}"
+        # QUERY_NODE_ADDRESS: "{{QUERY_NODE_ADDRESS}}"
+        # DATA_NODE_ADDRESS: "{{DATA_NODE_ADDRESS}}"
+        # INDEX_NODE_ADDRESS: "{{INDEX_NODE_ADDRESS}}"
       network_mode: "{{ network }}"
       # networks:
       #   - name: "{{ network }}"
@@ -169,7 +163,7 @@
   - name: milvus-indexcoord
     docker_container: 
       name: milvus-indexcoord
-      image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
+      image: milvusdb/milvus:v2.0.1
       command: ["milvus", "run", "indexcoord"]
       env:
         ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
@@ -193,7 +187,7 @@
   - name: milvus-querynode
     docker_container: 
       name: milvus-querynode
-      image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
+      image: milvusdb/milvus:v2.0.1
       command: "milvus run querynode"
       env:
         ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
@@ -217,7 +211,7 @@
   - name: milvus-datanode
     docker_container: 
       name: milvus-datanode
-      image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
+      image: milvusdb/milvus:v2.0.1
       command: "milvus run datanode"
       env:
         ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
@@ -241,7 +235,7 @@
   - name: milvus-indexnode
     docker_container: 
       name: milvus-indexnode
-      image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
+      image: milvusdb/milvus:v2.0.1
       command: "milvus run indexnode"
       env:
         ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
