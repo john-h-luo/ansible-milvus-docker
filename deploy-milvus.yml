@@ -46,7 +46,6 @@
               retries: 3
             ports:
               - 2379
-            network_mode: "{{ network }}"
             networks:
               - "{{ network }}"
                 # ipv4_address: "{{etcd_ip}}"
