@@ -19,11 +19,10 @@
   hosts: swarm-manager
   become: yes
   become_user: root
-  vars:
-    network: milvus_net
+  # vars:
+  #   network: milvus_net
   tags: docker
   tasks:
-  roles:
     - deploy-network
 
 
