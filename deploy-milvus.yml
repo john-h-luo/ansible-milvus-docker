@@ -108,7 +108,6 @@
   become_user: root
   vars:
     network: milvus_net
-    # etcd: "{{ hostvars['swarm-manager']['etcd']['container']['NetworkSettings']['Networks']['milvus_net']['IPAddress'] }}:2379"
   tags: docker
   tasks:
   - name: milvus-datacoord
