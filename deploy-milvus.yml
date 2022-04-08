@@ -31,7 +31,7 @@
   #     networks:
   #       - name: "{{ network }}"
   #         ipv4_address: "{{etcd_ip}}"
-
+  
 - name: Create milvus-etcd, minio, pulsar, network
   hosts: swarm-manager
   become: yes
@@ -44,10 +44,11 @@
         networks:
           "{{ network }}":
           driver: "overlay"
-          ipam_config:
-          - subnet: "{{subnet}}"
-            gateway: "{{gateway}}"
-            iprange: "{{iprange}}"
+          # attachable: yes
+          # ipam_config:
+          # - subnet: "{{subnet}}"
+          #   gateway: "{{gateway}}"
+          #   iprange: "{{iprange}}"
 
         services:
           milvus-etcd:
