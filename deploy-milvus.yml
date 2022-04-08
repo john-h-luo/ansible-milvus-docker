@@ -23,8 +23,14 @@
   #   network: milvus_net
   tags: docker
   tasks:
-  - name: deploy-network
-
+  - name: Create milvus_net
+    docker_network: 
+      name: "{{network}}"
+      driver: "overlay"
+      ipam_config:
+      - subnet: "10.0.2.0/24"
+        gateway: "10.0.0.1"
+        iprange: "10.0.2.0/24"
 
 
 
