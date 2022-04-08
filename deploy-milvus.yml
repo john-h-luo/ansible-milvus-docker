@@ -28,7 +28,7 @@
       network_mode: "{{ network }}"
       networks:
         - name: "{{ network }}"
-          ipv4_address: "{{minio_ip}}"
+          ipv4_address: "{{etcd_ip}}"
       ports:
         - 2379
 
