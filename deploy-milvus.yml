@@ -26,9 +26,9 @@
         timeout: 20s
         retries: 3
       network_mode: "{{ network }}"
-      networks:
-        - name: "{{ network }}"
-          ipv4_address: "{{etcd_ip}}"
+      # networks:
+      #   - name: "{{ network }}"
+      #     ipv4_address: "{{etcd_ip}}"
       ports:
         - 2379
 
@@ -46,9 +46,9 @@
         timeout: 20s
         retries: 3
       network_mode: "{{ network }}"
-      networks:
-        - name: "{{ network }}"
-          ipv4_address: "{{minio_ip}}"
+      # networks:
+      #   - name: "{{ network }}"
+      #     ipv4_address: "{{minio_ip}}"
       ports:
         - 9000
 
@@ -58,9 +58,9 @@
       image: apachepulsar/pulsar:latest
       command: "bin/pulsar standalone"
       network_mode: "{{ network }}"
-      networks:
-        - name: "{{ network }}"
-          ipv4_address: "{{pulsar_ip}}"
+      # networks:
+      #   - name: "{{ network }}"
+      #     ipv4_address: "{{pulsar_ip}}"
       ports:
         - "6650"
 
@@ -73,10 +73,17 @@
         ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
         MINIO_ADDRESS: "{{MINIO_ADDRESS}}"
         PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"
+        QUERY_COORD_ADDRESS: "{{QUERY_COORD_ADDRESS}}"
+        DATA_COORD_ADDRESS: "{{DATA_COORD_ADDRESS}}"
+        ROOT_COORD_ADDRESS: "{{ROOT_COORD_ADDRESS}}"
+        INDEX_COORD_ADDRESS: "{{INDEX_COORD_ADDRESS}}"
+        QUERY_NODE_ADDRESS: "{{QUERY_NODE_ADDRESS}}"
+        DATA_NODE_ADDRESS: "{{DATA_NODE_ADDRESS}}"
+        INDEX_NODE_ADDRESS: "{{INDEX_NODE_ADDRESS}}"
       network_mode: "{{ network }}"
-      networks:
-        - name: "{{ network }}"
-          ipv4_address: "{{proxy_ip}}"
+      # networks:
+      #   - name: "{{ network }}"
+      #     ipv4_address: "{{proxy_ip}}"
       ports:
         - "19530"
         - "9091"
@@ -90,14 +97,17 @@
         ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
         MINIO_ADDRESS: "{{MINIO_ADDRESS}}"
         PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"
-        ROOT_COORD_ADDRESS: "{{ROOT_COORD_ADDRESS}}"
-        DATA_COORD_ADDRESS: "{{DATA_COORD_ADDRESS}}"
-        INDEX_COORD_ADDRESS: "{{INDEX_COORD_ADDRESS}}"
         QUERY_COORD_ADDRESS: "{{QUERY_COORD_ADDRESS}}"
+        DATA_COORD_ADDRESS: "{{DATA_COORD_ADDRESS}}"
+        ROOT_COORD_ADDRESS: "{{ROOT_COORD_ADDRESS}}"
+        INDEX_COORD_ADDRESS: "{{INDEX_COORD_ADDRESS}}"
+        QUERY_NODE_ADDRESS: "{{QUERY_NODE_ADDRESS}}"
+        DATA_NODE_ADDRESS: "{{DATA_NODE_ADDRESS}}"
+        INDEX_NODE_ADDRESS: "{{INDEX_NODE_ADDRESS}}"
       network_mode: "{{ network }}"
-      networks:
-        - name: "{{ network }}"
-          ipv4_address: "{{querycoord_ip}}"
+      # networks:
+      #   - name: "{{ network }}"
+      #     ipv4_address: "{{querycoord_ip}}"
       ports:
         - "19531"
         - "9091"  
@@ -117,14 +127,17 @@
         ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
         MINIO_ADDRESS: "{{MINIO_ADDRESS}}"
         PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"
-        ROOT_COORD_ADDRESS: "{{ROOT_COORD_ADDRESS}}"
-        DATA_COORD_ADDRESS: "{{DATA_COORD_ADDRESS}}"
-        INDEX_COORD_ADDRESS: "{{INDEX_COORD_ADDRESS}}"
         QUERY_COORD_ADDRESS: "{{QUERY_COORD_ADDRESS}}"
+        DATA_COORD_ADDRESS: "{{DATA_COORD_ADDRESS}}"
+        ROOT_COORD_ADDRESS: "{{ROOT_COORD_ADDRESS}}"
+        INDEX_COORD_ADDRESS: "{{INDEX_COORD_ADDRESS}}"
+        QUERY_NODE_ADDRESS: "{{QUERY_NODE_ADDRESS}}"
+        DATA_NODE_ADDRESS: "{{DATA_NODE_ADDRESS}}"
+        INDEX_NODE_ADDRESS: "{{INDEX_NODE_ADDRESS}}"
       network_mode: "{{ network }}"
-      networks:
-        - name: "{{ network }}"
-          ipv4_address: "{{datacoord_ip}}"
+      # networks:
+      #   - name: "{{ network }}"
+      #     ipv4_address: "{{datacoord_ip}}"
       ports:
         - "13333"
         - "9091"   
@@ -138,14 +151,17 @@
         ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
         MINIO_ADDRESS: "{{MINIO_ADDRESS}}"
         PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"
-        ROOT_COORD_ADDRESS: "{{ROOT_COORD_ADDRESS}}"
-        DATA_COORD_ADDRESS: "{{DATA_COORD_ADDRESS}}"
-        INDEX_COORD_ADDRESS: "{{INDEX_COORD_ADDRESS}}"
         QUERY_COORD_ADDRESS: "{{QUERY_COORD_ADDRESS}}"
+        DATA_COORD_ADDRESS: "{{DATA_COORD_ADDRESS}}"
+        ROOT_COORD_ADDRESS: "{{ROOT_COORD_ADDRESS}}"
+        INDEX_COORD_ADDRESS: "{{INDEX_COORD_ADDRESS}}"
+        QUERY_NODE_ADDRESS: "{{QUERY_NODE_ADDRESS}}"
+        DATA_NODE_ADDRESS: "{{DATA_NODE_ADDRESS}}"
+        INDEX_NODE_ADDRESS: "{{INDEX_NODE_ADDRESS}}"
       network_mode: "{{ network }}"
-      networks:
-        - name: "{{ network }}"
-          ipv4_address: ""
+      # networks:
+      #   - name: "{{ network }}"
+      #     ipv4_address: ""
       ports:
         - "53100"
         - "9091"
@@ -159,14 +175,17 @@
         ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
         MINIO_ADDRESS: "{{MINIO_ADDRESS}}"
         PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"
-        ROOT_COORD_ADDRESS: "{{ROOT_COORD_ADDRESS}}"
-        DATA_COORD_ADDRESS: "{{DATA_COORD_ADDRESS}}"
-        INDEX_COORD_ADDRESS: "{{INDEX_COORD_ADDRESS}}"
         QUERY_COORD_ADDRESS: "{{QUERY_COORD_ADDRESS}}"
+        DATA_COORD_ADDRESS: "{{DATA_COORD_ADDRESS}}"
+        ROOT_COORD_ADDRESS: "{{ROOT_COORD_ADDRESS}}"
+        INDEX_COORD_ADDRESS: "{{INDEX_COORD_ADDRESS}}"
+        QUERY_NODE_ADDRESS: "{{QUERY_NODE_ADDRESS}}"
+        DATA_NODE_ADDRESS: "{{DATA_NODE_ADDRESS}}"
+        INDEX_NODE_ADDRESS: "{{INDEX_NODE_ADDRESS}}"
       network_mode: "{{ network }}"
       networks:
-        - name: "{{ network }}"
-          ipv4_address: ""
+        # - name: "{{ network }}"
+        #   ipv4_address: ""
       ports:
         - "31000"
         - "9091"  
@@ -180,11 +199,17 @@
         ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
         MINIO_ADDRESS: "{{MINIO_ADDRESS}}"
         PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"
-        QUERY_COORD_ADDRESS: "{{QUERY_COORD_ADDRESS}}"         
+        QUERY_COORD_ADDRESS: "{{QUERY_COORD_ADDRESS}}"
+        DATA_COORD_ADDRESS: "{{DATA_COORD_ADDRESS}}"
+        ROOT_COORD_ADDRESS: "{{ROOT_COORD_ADDRESS}}"
+        INDEX_COORD_ADDRESS: "{{INDEX_COORD_ADDRESS}}"
+        QUERY_NODE_ADDRESS: "{{QUERY_NODE_ADDRESS}}"
+        DATA_NODE_ADDRESS: "{{DATA_NODE_ADDRESS}}"
+        INDEX_NODE_ADDRESS: "{{INDEX_NODE_ADDRESS}}"        
       network_mode: "{{ network }}"
-      networks:
-        - name: "{{ network }}"
-          ipv4_address: ""
+      # networks:
+      #   - name: "{{ network }}"
+      #     ipv4_address: ""
       ports:
         - "21123"
         - "9091"
@@ -197,12 +222,18 @@
       env:
         ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
         MINIO_ADDRESS: "{{MINIO_ADDRESS}}"
-        PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}" 
-        DATA_COORD_ADDRESS: "{{DATA_COORD_ADDRESS}}"       
+        PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"
+        QUERY_COORD_ADDRESS: "{{QUERY_COORD_ADDRESS}}"
+        DATA_COORD_ADDRESS: "{{DATA_COORD_ADDRESS}}"
+        ROOT_COORD_ADDRESS: "{{ROOT_COORD_ADDRESS}}"
+        INDEX_COORD_ADDRESS: "{{INDEX_COORD_ADDRESS}}"
+        QUERY_NODE_ADDRESS: "{{QUERY_NODE_ADDRESS}}"
+        DATA_NODE_ADDRESS: "{{DATA_NODE_ADDRESS}}"
+        INDEX_NODE_ADDRESS: "{{INDEX_NODE_ADDRESS}}"     
       network_mode: "{{ network }}"
-      networks:
-        - name: "{{ network }}"
-          ipv4_address: ""
+      # networks:
+      #   - name: "{{ network }}"
+      #     ipv4_address: ""
       ports:
         - "21124"
         - "9091"
@@ -216,11 +247,17 @@
         ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
         MINIO_ADDRESS: "{{MINIO_ADDRESS}}"
         PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"
+        QUERY_COORD_ADDRESS: "{{QUERY_COORD_ADDRESS}}"
+        DATA_COORD_ADDRESS: "{{DATA_COORD_ADDRESS}}"
+        ROOT_COORD_ADDRESS: "{{ROOT_COORD_ADDRESS}}"
         INDEX_COORD_ADDRESS: "{{INDEX_COORD_ADDRESS}}"
+        QUERY_NODE_ADDRESS: "{{QUERY_NODE_ADDRESS}}"
+        DATA_NODE_ADDRESS: "{{DATA_NODE_ADDRESS}}"
+        INDEX_NODE_ADDRESS: "{{INDEX_NODE_ADDRESS}}"
       network_mode: "{{ network }}"
-      networks:
-        - name: "{{ network }}"
-          ipv4_address: ""
+      # networks:
+      #   - name: "{{ network }}"
+      #     ipv4_address: ""
       ports:
         - "21121"
         - "9091"
