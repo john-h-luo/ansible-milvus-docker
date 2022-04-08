@@ -78,11 +78,11 @@
         networks:
           milvus_net:
             external: true
-
+        services:
           milvus-datacoord:
             image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
             command: "milvus run datacoord"
-            env:
+            environment:
               ETCD_ENDPOINTS: milvus-etcd:2379
               MINIO_ADDRESS: milvus-minio:9000
               PULSAR_ADDRESS: pulsar://milvus-pulsar:6650
