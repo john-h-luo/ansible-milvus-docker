@@ -27,6 +27,7 @@
     docker_network: 
       name: "{{network}}"
       driver: "overlay"
+      attachable: yes
       ipam_config:
       - subnet: "10.0.2.0/24"
         gateway: "10.0.2.1"
