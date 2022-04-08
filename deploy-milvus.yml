@@ -1,7 +1,7 @@
 ---
 # Create milvus-network
 - name: Create milvus-network
-  hosts:  swarm-manager
+  hosts:  swarm-managers
   become: yes
   become_user: root
   roles:
