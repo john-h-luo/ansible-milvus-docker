@@ -64,7 +64,7 @@
               - 2379
             networks:
               - "{{ network }}"
-                # ipv4_address: "{{etcd_ip}}"
+              - ipv4_address: "{{etcd_ip}}"
 
 #   - name: milvus-minio
 #     docker_container: 
