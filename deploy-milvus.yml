@@ -151,19 +151,19 @@
 
           milvus-datacoord:
             image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
-          command: ["milvus", "run", "datacoord"]
-          env:
-            ETCD_ENDPOINTS: milvus-etcd:2379
-            MINIO_ADDRESS: milvus-minio:9000
-            PULSAR_ADDRESS: pulsar://milvus-pulsar:6650
-            ROOT_COORD_ADDRESS: milvus-rootcoord:53100
-            DATA_COORD_ADDRESS: milvus-datacoord:13333
-            INDEX_COORD_ADDRESS: milvus-indexcoord:31000
-            QUERY_COORD_ADDRESS: milvus-querycoord:19531
-          ports:
-            - 9000
-          networks:
-              - "{{ network }}"
+            command: ["milvus", "run", "datacoord"]
+            env:
+              ETCD_ENDPOINTS: milvus-etcd:2379
+              MINIO_ADDRESS: milvus-minio:9000
+              PULSAR_ADDRESS: pulsar://milvus-pulsar:6650
+              ROOT_COORD_ADDRESS: milvus-rootcoord:53100
+              DATA_COORD_ADDRESS: milvus-datacoord:13333
+              INDEX_COORD_ADDRESS: milvus-indexcoord:31000
+              QUERY_COORD_ADDRESS: milvus-querycoord:19531
+            ports:
+              - 9000
+            networks:
+                - "{{ network }}"
 
 # - name: Create all kinds of milvus coord & node
 #   hosts: swarm-worker-01
