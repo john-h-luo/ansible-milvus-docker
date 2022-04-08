@@ -65,76 +65,6 @@
               - 6650
             networks:
               - "{{ network }}"
-              
-#   - name: milvus-minio
-#     docker_container: 
-#       name: milvus-minio
-#       image: minio/minio:RELEASE.2020-12-03T00-03-10Z
-#       env:
-#         MINIO_ACCESS_KEY: minioadmin
-#         MINIO_SECRET_KEY: minioadmin
-#       command: "minio server /minio_data"
-#       healthcheck:
-#         test: ["CMD", "curl", "-f", "http://127.0.0.1:9000/minio/health/live"]
-#         interval: 30s
-#         timeout: 20s
-#         retries: 3
-#       network_mode: "{{ network }}"
-#       networks:
-#         - name: "{{ network }}"
-#           ipv4_address: "{{minio_ip}}"
-#       ports:
-#         - 9000
-
-#   - name: milvus-pulsar
-#     docker_container: 
-#       name: milvus-pulsar
-#       image: apachepulsar/pulsar:latest
-#       command: "bin/pulsar standalone"
-#       network_mode: "{{ network }}"
-#       networks:
-#         - name: "{{ network }}"
-#           ipv4_address: "{{pulsar_ip}}"
-#       ports:
-#         - "6650"
-
-#   - name: milvus-proxy
-#     docker_container: 
-#       name: milvus-proxy
-#       image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
-#       command: "milvus run proxy"
-#       env:
-#         ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
-#         MINIO_ADDRESS: "{{MINIO_ADDRESS}}"
-#         PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"
-#       network_mode: "{{ network }}"
-#       networks:
-#         - name: "{{ network }}"
-#           ipv4_address: "{{proxy_ip}}"
-#       ports:
-#         - "19530"
-#         - "9091"
-
-#   - name: milvus-querycoord
-#     docker_container: 
-#       name: milvus-querycoord
-#       image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
-#       command: "milvus run querycoord"
-#       env:
-#         ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
-#         MINIO_ADDRESS: "{{MINIO_ADDRESS}}"
-#         PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"
-#         ROOT_COORD_ADDRESS: "{{ROOT_COORD_ADDRESS}}"
-#         DATA_COORD_ADDRESS: "{{DATA_COORD_ADDRESS}}"
-#         INDEX_COORD_ADDRESS: "{{INDEX_COORD_ADDRESS}}"
-#         QUERY_COORD_ADDRESS: "{{QUERY_COORD_ADDRESS}}"
-#       network_mode: "{{ network }}"
-#       networks:
-#         - name: "{{ network }}"
-#           ipv4_address: "{{querycoord_ip}}"
-#       ports:
-#         - "19531"
-#         - "9091"  
 
 - name: Create milvus-etcd, minio, pulsar, network
   hosts: swarm-worker-01
@@ -151,7 +81,7 @@
 
           milvus-datacoord:
             image: milvusdb/milvus:v2.0.0-rc1-20210628-b87baa1
-            command: ["milvus", "run", "datacoord"]
+            command: "milvus run datacoord"
             env:
               ETCD_ENDPOINTS: milvus-etcd:2379
               MINIO_ADDRESS: milvus-minio:9000
