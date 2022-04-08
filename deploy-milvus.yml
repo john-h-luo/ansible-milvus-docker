@@ -44,8 +44,8 @@
               interval: 30s
               timeout: 20s
               retries: 3
-              ports:
-                - 2379
+            ports:
+              - 2379
             network_mode: "{{ network }}"
             networks:
               - aliases: "{{ network }}"
