@@ -64,12 +64,12 @@
       ports:
         - "6650"
 
-- name: Create all kinds of milvus coord & node
-  hosts: swarm-worker-01
-  become: yes
-  become_user: root
-  tags: docker
-  tasks:
+# - name: Create all kinds of milvus coord & node
+#   hosts: swarm-worker-01
+#   become: yes
+#   become_user: root
+#   tags: docker
+#   tasks:
   - name: milvus-proxy
     docker_container: 
       name: milvus-proxy
@@ -99,12 +99,6 @@
         - "19531"
         - "9091"  
 
-# - name: Create all kinds of milvus coord & node
-#   hosts: swarm-worker-01
-#   become: yes
-#   become_user: root
-#   tags: docker
-#   tasks:
   - name: milvus-datacoord
     docker_container: 
       name: milvus-datacoord
