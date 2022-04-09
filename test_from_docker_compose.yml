@@ -1,6 +1,6 @@
 ---
 - name: Create milvus-etcd, minio, pulsar, network
-  hosts: "{{host}}"
+  hosts: "{{myhost}}"
   become: yes
   become_user: root
   tags: docker
