@@ -144,9 +144,9 @@
         - "31000"
         - "9091"  
     
-  - name: "{{pre}}-datanode"
+  - name: "{{pre}}-querynode"
     docker_container: 
-      name: "{{pre}}-datanode"
+      name: "{{pre}}-querynode"
       image: milvusdb/milvus:v2.0.1
       command: "milvus run querynode"
       env:
