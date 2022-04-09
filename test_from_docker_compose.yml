@@ -116,19 +116,7 @@
         - "31000"
         - "9091"  
     
-  - name: "{{pre}}-querynode"
-    docker_container: 
-      name: "{{pre}}-querynode"
-      image: milvusdb/milvus:v2.0.1
-      command: "milvus run querynode"
-      env:
-        ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
-        MINIO_ADDRESS: "{{MINIO_ADDRESS}}"
-        PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"      
-      network_mode: "{{ network }}"
-      ports:
-        - "21123"
-        - "9091"
+
 
   - name: "{{pre}}-datanode"
     docker_container: 
@@ -174,12 +162,12 @@
         - "9091" 
 
 ###############################################
-# - name: Create all kinds of milvus coord & node
-#   hosts: swarm-managers
-#   become: yes
-#   become_user: root
-#   tags: docker
-#   tasks:
+- name: Create all kinds of milvus coord & node
+  hosts: swarm-managers
+  become: yes
+  become_user: root
+  tags: docker
+  tasks:
 
   # - name: "{{pre}}-querycoord"
   #   docker_container: 
@@ -195,3 +183,16 @@
   #     ports:
   #       - "19531"
   #       - "9091"  
+  - name: "{{pre}}-querynode"
+    docker_container: 
+      name: "{{pre}}-querynode"
+      image: milvusdb/milvus:v2.0.1
+      command: "milvus run querynode"
+      env:
+        ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
+        MINIO_ADDRESS: "{{MINIO_ADDRESS}}"
+        PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"      
+      network_mode: "{{ network }}"
+      ports:
+        - "21123"
+        - "9091"  
