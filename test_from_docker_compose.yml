@@ -8,7 +8,7 @@
   - name: Create milvus network
     docker_network: 
       name: "{{network}}"
-      driver: "bridge"
+      driver: "overlay"
       attachable: yes
       # ipam_config:
       # - subnet: "{{subnet}}"
