@@ -173,12 +173,12 @@
         - "21121"
         - "9091"
 ###############################################
-- name: Create all kinds of milvus coord & node
-  hosts: swarm-managers
-  become: yes
-  become_user: root
-  tags: docker
-  tasks:
+# - name: Create all kinds of milvus coord & node
+#   hosts: swarm-managers
+#   become: yes
+#   become_user: root
+#   tags: docker
+#   tasks:
   - name: "{{pre}}-proxy"
     docker_container: 
       name: "{{pre}}-proxy"
