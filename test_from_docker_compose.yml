@@ -8,12 +8,12 @@
   - name: Create milvus network
     docker_network: 
       name: "{{network}}"
-      driver: "overlay"
+      driver: "bridge"
       attachable: yes
-      ipam_config:
-      - subnet: "{{subnet}}"
-        gateway: "{{gateway}}"
-        iprange: "{{iprange}}"
+      # ipam_config:
+      # - subnet: "{{subnet}}"
+      #   gateway: "{{gateway}}"
+      #   iprange: "{{iprange}}"
 
   - name: milvus-etcd
     docker_container: 
@@ -97,12 +97,12 @@
         - "19531"
         - "9091"  
 
-- name: Create all kinds of milvus coord & node
-  hosts: swarm-worker-01
-  become: yes
-  become_user: root
-  tags: docker
-  tasks:
+# - name: Create all kinds of milvus coord & node
+#   hosts: swarm-worker-01
+#   become: yes
+#   become_user: root
+#   tags: docker
+#   tasks:
   - name: milvus-datacoord
     docker_container: 
       name: milvus-datacoord
