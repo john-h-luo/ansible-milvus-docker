@@ -52,24 +52,6 @@
       ports:
         - 2379
 
-  - name: "{{pre}}-pulsar"
-    docker_container: 
-      name: "{{pre}}-pulsar"
-      image: apachepulsar/pulsar:2.8.2
-      env:
-        # bin/apply-config-from-env.py script will modify the configuration file based on the environment variables
-        # nettyMaxFrameSizeBytes must be calculated from maxMessageSize + 10240 (padding)
-        nettyMaxFrameSizeBytes: "104867840" # this is 104857600 + 10240 (padding)
-        defaultRetentionTimeInMinutes: "10080"
-        defaultRetentionSizeInMB: "8192"
-        # maxMessageSize is missing from standalone.conf, must use PULSAR_PREFIX_ to get it configured
-        PULSAR_PREFIX_maxMessageSize: "104857600"
-        PULSAR_GC: -XX:+UseG1GC        
-      command: "bin/pulsar standalone --no-functions-worker --no-stream-storage" #/bin/bash -c bin/apply-config-from-env.py conf/standalone.conf &&
-      network_mode: "{{ network }}"
-      ports:
-        - "6650"
-
   - name: "{{pre}}-querycoord"
     docker_container: 
       name: "{{pre}}-querycoord"
@@ -172,13 +154,7 @@
       ports:
         - "21121"
         - "9091"
-###############################################
-# - name: Create all kinds of milvus coord & node
-#   hosts: swarm-managers
-#   become: yes
-#   become_user: root
-#   tags: docker
-#   tasks:
+
   - name: "{{pre}}-proxy"
     docker_container: 
       name: "{{pre}}-proxy"
@@ -192,3 +168,29 @@
       ports:
         - "19530"
         - "9091" 
+
+###############################################
+- name: Create all kinds of milvus coord & node
+  hosts: swarm-managers
+  become: yes
+  become_user: root
+  tags: docker
+  tasks:
+
+  - name: "{{pre}}-pulsar"
+    docker_container: 
+      name: "{{pre}}-pulsar"
+      image: apachepulsar/pulsar:2.8.2
+      env:
+        # bin/apply-config-from-env.py script will modify the configuration file based on the environment variables
+        # nettyMaxFrameSizeBytes must be calculated from maxMessageSize + 10240 (padding)
+        nettyMaxFrameSizeBytes: "104867840" # this is 104857600 + 10240 (padding)
+        defaultRetentionTimeInMinutes: "10080"
+        defaultRetentionSizeInMB: "8192"
+        # maxMessageSize is missing from standalone.conf, must use PULSAR_PREFIX_ to get it configured
+        PULSAR_PREFIX_maxMessageSize: "104857600"
+        PULSAR_GC: -XX:+UseG1GC        
+      command: "bin/pulsar standalone --no-functions-worker --no-stream-storage" #/bin/bash -c bin/apply-config-from-env.py conf/standalone.conf &&
+      network_mode: "{{ network }}"
+      ports:
+        - "6650"
