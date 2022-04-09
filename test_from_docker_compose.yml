@@ -1,6 +1,6 @@
 ---
 - name: Create milvus-etcd, minio, pulsar, network
-  hosts: swarm-worker-01
+  hosts: "{{host}}"
   become: yes
   become_user: root
   tags: docker
@@ -28,12 +28,12 @@
       ports:
         - 9000
 
-- name: Create all kinds of milvus coord & node
-  hosts: swarm-worker-01
-  become: yes
-  become_user: root
-  tags: docker
-  tasks:
+# - name: Create all kinds of milvus coord & node
+#   hosts: swarm-worker-01
+#   become: yes
+#   become_user: root
+#   tags: docker
+#   tasks:
   - name: "{{pre}}-etcd"
     docker_container: 
       name: "{{pre}}-etcd"
