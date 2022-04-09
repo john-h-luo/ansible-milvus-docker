@@ -172,9 +172,9 @@
       ports:
         - "21121"
         - "9091"
-        
+###############################################
 - name: Create all kinds of milvus coord & node
-  hosts: swarm-worker-01
+  hosts: swarm-managers
   become: yes
   become_user: root
   tags: docker
