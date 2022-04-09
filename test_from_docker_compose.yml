@@ -5,11 +5,11 @@
   become_user: root
   tags: docker
   tasks:
-  - name: Create milvus network
-    docker_network: 
-      name: "{{network}}"
-      driver: "overlay"
-      attachable: yes
+  # - name: Create milvus network
+  #   docker_network: 
+  #     name: "{{network}}"
+  #     driver: "overlay"
+  #     attachable: yes
 
   - name: "{{pre}}-minio"
     docker_container: 
