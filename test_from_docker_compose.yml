@@ -1,6 +1,6 @@
 ---
 - name: Create milvus-etcd, minio, pulsar, network
-  hosts: swarm-workers
+  hosts: swarm-manager
   become: yes
   become_user: root
   tags: docker
