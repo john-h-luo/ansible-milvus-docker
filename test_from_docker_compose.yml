@@ -116,20 +116,32 @@
         - "31000"
         - "9091"  
 
-
-  - name: "{{pre}}-indexnode"
+  - name: "{{pre}}-querynode"
     docker_container: 
-      name: "{{pre}}-indexnode"
+      name: "{{pre}}-querynode"
       image: milvusdb/milvus:v2.0.1
-      command: "milvus run indexnode"
+      command: "milvus run querynode"
       env:
         ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
         MINIO_ADDRESS: "{{MINIO_ADDRESS}}"
-        PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"
-        INDEX_COORD_ADDRESS: "{{INDEX_COORD_ADDRESS}}"
+        PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"      
       network_mode: "{{ network }}"
       ports:
-        - "21121"
+        - "21123"
+        - "9091"  
+
+  - name: "{{pre}}-datanode"
+    docker_container: 
+      name: "{{pre}}-datanode"
+      image: milvusdb/milvus:v2.0.1
+      command: "milvus run datanode"
+      env:
+        ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
+        MINIO_ADDRESS: "{{MINIO_ADDRESS}}"
+        PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"   
+      network_mode: "{{ network }}"
+      ports:
+        - "21124"
         - "9091"
 
   - name: "{{pre}}-proxy"
@@ -168,30 +180,17 @@
   #     ports:
   #       - "19531"
   #       - "9091"  
-  - name: "{{pre}}-querynode"
+  - name: "{{pre}}-indexnode"
     docker_container: 
-      name: "{{pre}}-querynode"
+      name: "{{pre}}-indexnode"
       image: milvusdb/milvus:v2.0.1
-      command: "milvus run querynode"
+      command: "milvus run indexnode"
       env:
         ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
         MINIO_ADDRESS: "{{MINIO_ADDRESS}}"
-        PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"      
+        PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"
+        INDEX_COORD_ADDRESS: "{{INDEX_COORD_ADDRESS}}"
       network_mode: "{{ network }}"
       ports:
-        - "21123"
-        - "9091"  
-
-  - name: "{{pre}}-datanode"
-    docker_container: 
-      name: "{{pre}}-datanode"
-      image: milvusdb/milvus:v2.0.1
-      command: "milvus run datanode"
-      env:
-        ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
-        MINIO_ADDRESS: "{{MINIO_ADDRESS}}"
-        PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"   
-      network_mode: "{{ network }}"
-      ports:
-        - "21124"
+        - "21121"
         - "9091"
