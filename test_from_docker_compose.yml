@@ -115,22 +115,7 @@
       ports:
         - "31000"
         - "9091"  
-    
 
-
-  - name: "{{pre}}-datanode"
-    docker_container: 
-      name: "{{pre}}-datanode"
-      image: milvusdb/milvus:v2.0.1
-      command: "milvus run datanode"
-      env:
-        ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
-        MINIO_ADDRESS: "{{MINIO_ADDRESS}}"
-        PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"   
-      network_mode: "{{ network }}"
-      ports:
-        - "21124"
-        - "9091"
 
   - name: "{{pre}}-indexnode"
     docker_container: 
@@ -196,3 +181,17 @@
       ports:
         - "21123"
         - "9091"  
+
+  - name: "{{pre}}-datanode"
+    docker_container: 
+      name: "{{pre}}-datanode"
+      image: milvusdb/milvus:v2.0.1
+      command: "milvus run datanode"
+      env:
+        ETCD_ENDPOINTS: "{{ETCD_ENDPOINTS}}"
+        MINIO_ADDRESS: "{{MINIO_ADDRESS}}"
+        PULSAR_ADDRESS: "{{PULSAR_ADDRESS}}"   
+      network_mode: "{{ network }}"
+      ports:
+        - "21124"
+        - "9091"
