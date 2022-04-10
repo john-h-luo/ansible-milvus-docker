@@ -19,30 +19,30 @@
         interval: 30s
         timeout: 20s
         retries: 3
-      network_mode: host
+      network_mode: "{{ network }}"
       ports:
         - 9000:9000
 
-  - name: "{{pre}}-etcd"
-    docker_container: 
-      name: "{{pre}}-etcd"
-      image: quay.io/coreos/etcd:v3.5.0
-      command: etcd -listen-peer-urls=http://10.170.0.8:2380 -advertise-client-urls=http://10.170.0.8:2379 -listen-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001 -initial-advertise-peer-urls=http://10.170.0.8:2380 --listen-metrics-urls=http://10.170.0.8:2381 --initial-cluster default=http://10.170.0.8:2380,http://35.220.249.177:2380,http://127.0.0.1:2380
-      healthcheck:
-        test: ["CMD", "wget", "-q", "--tries=1", "--spider", "http://localhost:2381/health"]
-        interval: 30s
-        timeout: 20s
-        retries: 3
-      env:
-        ETCD_AUTO_COMPACTION_MODE: revision
-        ETCD_AUTO_COMPACTION_RETENTION: "1000"
-        ETCD_QUOTA_BACKEND_BYTES: "4294967296"
-      network_mode: host
-      # networks:
-      #   - name: "{{ network }}"
-      #     ipv4_address: 10.0.5.125
-      ports:
-        - 2379:2379
+  # - name: "{{pre}}-etcd"
+  #   docker_container: 
+  #     name: "{{pre}}-etcd"
+  #     image: quay.io/coreos/etcd:v3.5.0
+  #     command: etcd -listen-peer-urls=http://10.170.0.8:2380 -advertise-client-urls=http://10.170.0.8:2379 -listen-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001 -initial-advertise-peer-urls=http://10.170.0.8:2380 --listen-metrics-urls=http://10.170.0.8:2381 --initial-cluster default=http://10.170.0.8:2380,http://35.220.249.177:2380,http://127.0.0.1:2380
+  #     healthcheck:
+  #       test: ["CMD", "wget", "-q", "--tries=1", "--spider", "http://localhost:2381/health"]
+  #       interval: 30s
+  #       timeout: 20s
+  #       retries: 3
+  #     env:
+  #       ETCD_AUTO_COMPACTION_MODE: revision
+  #       ETCD_AUTO_COMPACTION_RETENTION: "1000"
+  #       ETCD_QUOTA_BACKEND_BYTES: "4294967296"
+  #     network_mode: host
+  #     # networks:
+  #     #   - name: "{{ network }}"
+  #     #     ipv4_address: 10.0.5.125
+  #     ports:
+  #       - 2379:2379
 
   - name: "{{pre}}-pulsar"
     docker_container: 
@@ -58,7 +58,7 @@
         PULSAR_PREFIX_maxMessageSize: "104857600"
         PULSAR_GC: -XX:+UseG1GC        
       command: "bin/pulsar standalone --no-functions-worker --no-stream-storage" #/bin/bash -c bin/apply-config-from-env.py conf/standalone.conf &&
-      network_mode: host
+      network_mode: "{{ network }}"
       ports:
         - 6650:6500
 
