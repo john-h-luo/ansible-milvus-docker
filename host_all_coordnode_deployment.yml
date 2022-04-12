@@ -3,9 +3,6 @@
   hosts: swarm-manager
   become: yes
   become_user: root
-  vars:
-    pre: "host"
-    network: host
   tags: docker
   tasks:
   - name: "{{pre}}datacoord"
@@ -86,7 +83,7 @@
         ETCD_ENDPOINTS: "10.170.0.8:2379"
         MINIO_ADDRESS: "10.170.0.8:9000"
         PULSAR_ADDRESS: "pulsar://10.170.0.8:6650"
-        QUERY_COORD_ADDRESS: 10.170.0.8:19531
+        QUERY_COORD_ADDRESS: "{{QUERY_COORD_ADDRESS}}"
         METRICS_PORT: "9091"
       network_mode: "{{ network }}"
 
